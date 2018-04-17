@@ -116,6 +116,7 @@ public class DAOEmployee extends DAO {
 		for(DAO o: entryList) {
 			o.printAll();
 		}
+		System.out.println(DatabaseAccess.access.addItem(entryList.get(0)));
 	
 	}
 }

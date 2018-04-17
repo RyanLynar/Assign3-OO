@@ -82,7 +82,11 @@ public class DatabaseAccess {
 
 			if (itemToAdd instanceof DAOEmployee) {
 				s = con.prepareStatement("INSERT INTO " + DAOEmployee.tName + " VALUES(?,?,?,?,?,?);");
-				for (int i = 0; i < itemToAdd.getColumnNames().length; i++) {
+				PreparedStatement maxKey = con.prepareStatement("SELECT MAX("+itemToAdd.getColumnNames()[0] +") FROM "+ DAOEmployee.tName+";");
+				ResultSet res = maxKey.executeQuery();
+				res.first();
+				s.setInt(1, res.getInt(1)+1);
+				for (int i = 1; i < itemToAdd.getColumnNames().length; i++) {
 					s.setString(i + 1, itemToAdd.getColumnValues()[i]);
 				}
 			}
