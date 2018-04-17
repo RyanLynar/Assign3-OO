@@ -1,7 +1,8 @@
-package src.databaseaccess;
+package databaseaccess;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,6 +17,7 @@ public class DatabaseAccess {
 	public static String user = "root";
 	public static String pass = "Ec!66440";
 	public static String dbName = "employees";
+	public static DatabaseAccess access = new DatabaseAccess();
 	private Connection con;
 	private Properties conProp;
 	private ArrayList<String> tableNames;
@@ -39,7 +41,7 @@ public class DatabaseAccess {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
 	public String[] setColumns(String tName) {
 		String[] result = null;
 		try {
@@ -73,9 +75,51 @@ public class DatabaseAccess {
 		return result;
 	}
 
-	public DAO createItem(DAO entry, int numRows) {
-		String tName = entry.getTName();
+	public boolean addItem(DAO itemToAdd) {
+		boolean result = false;
+		PreparedStatement s = null;
+		try {
+
+			if (itemToAdd instanceof DAOEmployee) {
+				s = con.prepareStatement("INSERT INTO " + DAOEmployee.tName + " VALUES(?,?,?,?,?,?);");
+				for (int i = 0; i < itemToAdd.getColumnNames().length; i++) {
+					s.setString(i + 1, itemToAdd.getColumnValues()[i]);
+				}
+			}
+			System.out.println(s.toString());
+			if (s != null) {
+				return s.executeUpdate() == 1;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+
+	}
+
+	public boolean removeItem(DAO itemToRemove) {
+		boolean result = false;
+		PreparedStatement s = null;
+		try {
+
+			if (itemToRemove instanceof DAOEmployee) {
+				s = con.prepareStatement("DELETE FROM " + DAOEmployee.tName + " WHERE "
+						+ itemToRemove.getColumnNames()[0] + " = " + ((DAOEmployee) itemToRemove).getEmpNumber());
+			}
+			if (s != null) {
+				return s.executeUpdate() == 1;
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+
+	public void createItems(ArrayList<DAO> entryList, String type, int numRows) {
+		String tName = type;
 		String[] colNames = setColumns(tName);
+		DAO entry;
+
 		try {
 			ResultSet r = null;
 			if (numRows == -1) {
@@ -84,16 +128,22 @@ public class DatabaseAccess {
 				r = con.prepareStatement("SELECT * FROM " + tName + " LIMIT " + numRows + ";").executeQuery();
 			}
 			if (r != null) {
+
 				r.first();
 				while (!r.isAfterLast()) {
+					if (type.equals(DAOEmployee.tName)) {
+						entry = new DAOEmployee();
+					} else {
+						return;
+					}
 					for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
 						if (r.getMetaData().getColumnType(i + 1) == Types.VARCHAR) {
 							if (entry.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
 								entry.setString(r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
 							}
-						}else if(r.getMetaData().getColumnType(i+1)==Types.CHAR) {
-							if(entry.getColumnNames()[i].equals(r.getMetaData().getColumnName(i+1))) {
-								entry.setChar(r.getString(i+1),r.getMetaData().getColumnName(i+1));
+						} else if (r.getMetaData().getColumnType(i + 1) == Types.CHAR) {
+							if (entry.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
+								entry.setChar(r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
 							}
 						} else if (r.getMetaData().getColumnType(i + 1) == Types.INTEGER) {
 							if (entry.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
@@ -106,20 +156,16 @@ public class DatabaseAccess {
 						}
 
 					}
+					entryList.add(entry);
 					r.next();
 				}
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		return entry;
 
 	}
 
-	public static void main(String[] args) {
-		final DatabaseAccess dba = new DatabaseAccess();
-		DAOEmployee testEmp = (DAOEmployee) dba.createItem(new DAOEmployee(), 1);
-		testEmp.printAll();
-	}
+
 
 }

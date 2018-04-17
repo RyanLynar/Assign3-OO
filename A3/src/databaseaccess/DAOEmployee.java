@@ -1,14 +1,15 @@
 package databaseaccess;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class DAOEmployee extends DAO {
+	protected static String tName ="employees";
 	private int empNumber;
 	private String empFName, empLName, empGender;
 	private Date empBDate, empHDate;
 
 	public DAOEmployee() {
-		super("employees");
 	}
 
 	public int getEmpNumber() {
@@ -84,7 +85,6 @@ public class DAOEmployee extends DAO {
 	@Override
 	public void setChar(String data, String cName) {
 		if (cName.equals("gender")) {
-			System.out.println("add gender");
 			setEmpGender(data);
 		}
 	}
@@ -104,5 +104,18 @@ public class DAOEmployee extends DAO {
 			setEmpHDate(data);
 		}
 
+	}
+	public String[] getColumnValues() {
+		return new String[] {""+getEmpNumber(),getEmpBDate().toString(),getEmpFName(),getEmpLName(),getEmpGender(),getEmpHDate().toString()};
+	}
+	
+	public static void main(String[] args) {
+		ArrayList<DAO> entryList = new ArrayList<DAO>();
+		
+		DatabaseAccess.access.createItems(entryList, DAOEmployee.tName, 20);
+		for(DAO o: entryList) {
+			o.printAll();
+		}
+	
 	}
 }
