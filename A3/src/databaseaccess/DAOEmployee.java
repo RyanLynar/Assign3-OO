@@ -46,16 +46,18 @@ public class DAOEmployee implements DAO<Employee> {
 			ResultSet res = maxKey.executeQuery();
 			res.first();
 			s.setInt(1, res.getInt(1) + 1);
-			for (int i = 1; i < DAOEmployee.COLUMNS.length; i++) {
-				s.setString(i + 1, itemToAdd.getValues()[i]);
-			}
+			s.setDate(2, itemToAdd.getEmpBDate());
+			s.setString(3, itemToAdd.getEmpFName());
+			s.setString(4, itemToAdd.getEmpLName());
+			s.setString(5, itemToAdd.getEmpGender());
+			s.setDate(6, itemToAdd.getEmpHDate());
 			res.close();
 
 			System.out.println(s.toString());
 			if (s != null) {
-				result = s.executeUpdate()==1;
+				result = s.executeUpdate() == 1;
 				DatabaseAccess.access.closeConnection();
-				return result
+				return result;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -72,7 +74,6 @@ public class DAOEmployee implements DAO<Employee> {
 
 			s = DatabaseAccess.access.getConnection().prepareStatement(
 					"DELETE FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
-			// + ((Employee) itemToRemove).getEmpNumber());
 
 			if (s != null) {
 				DatabaseAccess.access.closeConnection();
@@ -90,26 +91,29 @@ public class DAOEmployee implements DAO<Employee> {
 
 	public boolean modifyItem(Employee itemToModify) {
 		PreparedStatement s = null;
+		boolean result=false;
 		try {
 			s = DatabaseAccess.access.getConnection()
 					.prepareStatement("UPDATE " + DAOEmployee.tName + " SET " + DAOEmployee.COLUMNS[1] + "=?,"
 							+ DAOEmployee.COLUMNS[2] + "=?," + DAOEmployee.COLUMNS[3] + "=?," + DAOEmployee.COLUMNS[4]
 							+ "=?," + DAOEmployee.COLUMNS[5] + "=? WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
-
-			for (int i = 1; i < DAOEmployee.COLUMNS.length; i++) {
-				s.setString(i, itemToModify.getValues()[i]);
-			}
+			s.setDate(1, itemToModify.getEmpBDate());
+			s.setString(2, itemToModify.getEmpFName());
+			s.setString(3, itemToModify.getEmpLName());
+			s.setString(4, itemToModify.getEmpGender());
+			s.setDate(5, itemToModify.getEmpHDate());
 			s.setString(6, itemToModify.getValues()[0]);
 
 			if (s != null) {
+				result = s.executeUpdate() >0;
 				DatabaseAccess.access.closeConnection();
-				return 0 < s.executeUpdate();
+				return result;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		DatabaseAccess.access.closeConnection();
-		return false;
+		return result;
 	}
 
 	public ArrayList<Employee> createList(int numRows) {
@@ -121,7 +125,7 @@ public class DAOEmployee implements DAO<Employee> {
 						.executeQuery();
 			} else {
 				r = DatabaseAccess.access.getConnection()
-						.prepareStatement("SELECT * FROM " + tName + " LIMIT " + numRows + ";").executeQuery();
+						.prepareStatement("SELECT * FROM " + DAOEmployee.tName +";").executeQuery();
 			}
 			if (r != null) {
 				EmployeeFactory fact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);

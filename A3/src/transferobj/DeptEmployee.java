@@ -44,8 +44,8 @@ public class DeptEmployee implements TransferObject<DeptEmployee> {
 
 	@Override
 	public String[] getValues() {
-		return new String[]{""+getEmpID(),getDeptID(),getfDate().toString(),gettDate().toString()};
-		
+		return new String[] { "" + getEmpID(), getDeptID(), getfDate().toString(), gettDate().toString() };
+
 	}
 
 	@Override

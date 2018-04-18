@@ -3,6 +3,7 @@ package databaseaccess;
 import java.util.ArrayList;
 
 
+
 public abstract interface DAO<T> {
 	public abstract boolean addItem(T item);
 

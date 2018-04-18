@@ -11,7 +11,6 @@ public class DeptEmployeeLogic implements Logic<DeptEmployee> {
 	public DeptEmployeeLogic() {
 		daoDE = new DAODeptEmployee();
 	}
-
 	@Override
 	public ArrayList<DeptEmployee> getObjects(int numRows) {
 		return daoDE.createList(numRows);

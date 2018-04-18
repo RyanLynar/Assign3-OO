@@ -76,7 +76,7 @@ public class EmployeeBuilder implements AbstractBuilder<Employee> {
 			}
 			r.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 
