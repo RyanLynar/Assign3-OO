@@ -71,32 +71,6 @@ public class Employee implements TransferObject<Employee> {
 		System.out.println(getEmpNumber() + " " + getEmpFName() + " " + getEmpLName() + " " + getEmpGender() + " "
 				+ getEmpBDate() + " " + getEmpHDate());
 	}
-
-	@Override
-	public ArrayList<Employee> getTransferList() {
-		return daoEmp.createList(100);
-	}
-
-	@Override
-	public ArrayList<Employee> getTransferObjectByID(int id) {
-		return daoEmp.getItemsByID(id);
-	}
-
-	@Override
-	public boolean addItem(Employee toAdd) {
-		return daoEmp.addItem(toAdd);
-	}
-
-	@Override
-	public boolean removeItem(Employee toRemove) {
-		return daoEmp.removeItem(toRemove);
-	}
-
-	@Override
-	public boolean modifyItem(Employee toModify) {
-		return daoEmp.modifyItem(toModify);
-	}
-
 	@Override
 	public String[] getValues() {
 		return new String[] { "" + getEmpNumber(), getEmpBDate().toString(), getEmpFName(), getEmpLName(),

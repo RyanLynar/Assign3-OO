@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import factories.EmployeeFactory;
 import factories.TransferFactoryCreator;
 import transferobj.Employee;
-import transferobj.TransferObject;
 
 public class DAOEmployee implements DAO<Employee> {
 	public static String tName = "employees";
@@ -36,28 +35,27 @@ public class DAOEmployee implements DAO<Employee> {
 	 */
 
 	@Override
-	public boolean addItem(TransferObject itemToAdd) {
+	public boolean addItem(Employee itemToAdd) {
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
-
-			if (itemToAdd instanceof Employee) {
-				s = DatabaseAccess.access.getConnection()
-						.prepareStatement("INSERT INTO " + DAOEmployee.tName + " VALUES(?,?,?,?,?,?);");
-				PreparedStatement maxKey = DatabaseAccess.access.getConnection()
-						.prepareStatement("SELECT MAX(" + DAOEmployee.COLUMNS[0] + ") FROM " + DAOEmployee.tName + ";");
-				ResultSet res = maxKey.executeQuery();
-				res.first();
-				s.setInt(1, res.getInt(1) + 1);
-				for (int i = 1; i < DAOEmployee.COLUMNS.length; i++) {
-					s.setString(i + 1, itemToAdd.getValues()[i]);
-				}
-				res.close();
+			s = DatabaseAccess.access.getConnection()
+					.prepareStatement("INSERT INTO " + DAOEmployee.tName + " VALUES(?,?,?,?,?,?);");
+			PreparedStatement maxKey = DatabaseAccess.access.getConnection()
+					.prepareStatement("SELECT MAX(" + DAOEmployee.COLUMNS[0] + ") FROM " + DAOEmployee.tName + ";");
+			ResultSet res = maxKey.executeQuery();
+			res.first();
+			s.setInt(1, res.getInt(1) + 1);
+			for (int i = 1; i < DAOEmployee.COLUMNS.length; i++) {
+				s.setString(i + 1, itemToAdd.getValues()[i]);
 			}
+			res.close();
+
 			System.out.println(s.toString());
 			if (s != null) {
+				result = s.executeUpdate()==1;
 				DatabaseAccess.access.closeConnection();
-				return s.executeUpdate() == 1;
+				return result
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -67,15 +65,15 @@ public class DAOEmployee implements DAO<Employee> {
 
 	}
 
-	public boolean removeItem(TransferObject itemToRemove) {
+	public boolean removeItem(Employee itemToRemove) {
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
 
-			if (itemToRemove instanceof Employee) {
-				s = DatabaseAccess.access.getConnection().prepareStatement("DELETE FROM " + DAOEmployee.tName
-						+ " WHERE " + DAOEmployee.COLUMNS[0] + " = " + ((Employee) itemToRemove).getEmpNumber());
-			}
+			s = DatabaseAccess.access.getConnection().prepareStatement(
+					"DELETE FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
+			// + ((Employee) itemToRemove).getEmpNumber());
+
 			if (s != null) {
 				DatabaseAccess.access.closeConnection();
 				return s.executeUpdate() > 0;
@@ -90,7 +88,7 @@ public class DAOEmployee implements DAO<Employee> {
 
 	@Override
 
-	public boolean modifyItem(TransferObject itemToModify) {
+	public boolean modifyItem(Employee itemToModify) {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.access.getConnection()
