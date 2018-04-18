@@ -2,14 +2,17 @@ package databaseaccess;
 
 import java.util.ArrayList;
 
+import com.mysql.jdbc.PreparedStatement;
+
 import transferobj.Salaries;
 
 public class DAOSalaries implements DAO<Salaries> {
 
 	@Override
 	public boolean addItem(Salaries item) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		PreparedStatement s = null;
+		return result;
 	}
 
 	@Override

@@ -21,6 +21,7 @@ public class DatabaseAccess {
 	 * Connection con, allows for access and manipulation of the dataset
 	 */
 	private DatabaseAccess() {
+		con = new Connection();
 		conProp = new Properties();
 		conProp.put("user", user);
 		conProp.put("password", pass);
