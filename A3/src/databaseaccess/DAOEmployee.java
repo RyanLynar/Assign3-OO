@@ -7,198 +7,129 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 
+import transferobj.Employee;
+import transferobj.TransferObject;
 
-public class DAOEmployee extends DAO {
-	protected static String tName = "employees";
-	private int empNumber;
-	private String empFName, empLName, empGender;
-	private Date empBDate, empHDate;
-	private ArrayList<DAO> empList;
- 
-	public DAOEmployee() {
-		empList = new ArrayList<DAO>();
-	}
-
-	public int getEmpNumber() {
-		return empNumber;
-	}
-
-	public String getEmpFName() {
-		return empFName;
-	}
-
-	public String getEmpLName() {
-		return empLName;
-	}
-
-	public String getEmpName() {
-		return getEmpFName() + " " + getEmpLName();
-	}
-
-	public void setEmpNumber(int empNumber) {
-		this.empNumber = empNumber;
-	}
-
-	public void setEmpFName(String empFName) {
-		this.empFName = empFName;
-	}
-
-	public void setEmpLName(String empLName) {
-		this.empLName = empLName;
-	}
-
-	public void setEmpGender(String empGender) {
-		this.empGender = empGender;
-	}
-
-	public void setEmpBDate(Date empBDate) {
-		this.empBDate = empBDate;
-	}
-
-	public void setEmpHDate(Date empHDate) {
-		this.empHDate = empHDate;
-	}
-
-	public String getEmpGender() {
-		return empGender;
-	}
-
-	public Date getEmpBDate() {
-		return empBDate;
-	}
-
-	public Date getEmpHDate() {
-		return empHDate;
-	}
-	public ArrayList<DAO> getEmpList(){
-		return empList;
-	}
+public class DAOEmployee implements DAO {
+	static String tName = "employees";
 
 	@Override
 	public String[] getColumnNames() {
 		return new String[] { "emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date" };
 	}
 
-	public void printAll() {
-		System.out.println(getEmpNumber() + " " + getEmpFName() + " " + getEmpLName() + " " + getEmpGender() + " "
-				+ getEmpBDate() + " " + getEmpHDate());
-	}
-
-	@Override
-	public void setString(String data, String cName) {
+	public void setString(Employee newEmp, String data, String cName) {
 		if (cName.equals("first_name")) {
-			setEmpFName(data);
+			newEmp.setEmpFName(data);
 		} else if (cName.equals("last_name")) {
-			setEmpLName(data);
+			newEmp.setEmpLName(data);
 		}
 	}
 
-	@Override
-	public void setChar(String data, String cName) {
+	public void setChar(Employee newEmp, String data, String cName) {
 		if (cName.equals("gender")) {
-			setEmpGender(data);
+			newEmp.setEmpGender(data);
 		}
 	}
 
-	@Override
-	public void setInt(int data, String cName) {
+	public void setInt(Employee newEmp, int data, String cName) {
 		if (cName.equals("emp_no")) {
-			setEmpNumber(data);
+			newEmp.setEmpNumber(data);
 		}
 
 	}
 
-	@Override
-	public void setDate(Date data, String cName) {
+	public void setDate(Employee newEmp, Date data, String cName) {
 		if (cName.equals("birth_date")) {
-			setEmpBDate(data);
+			newEmp.setEmpBDate(data);
 		} else if (cName.equals("hire_date")) {
-			setEmpHDate(data);
+			newEmp.setEmpHDate(data);
 		}
 
 	}
 
-	public String[] getColumnValues() {
-		return new String[] { "" + getEmpNumber(), getEmpBDate().toString(), getEmpFName(), getEmpLName(),
-				getEmpGender(), getEmpHDate().toString() };
-	}
-
 	@Override
-	public boolean addItem(DAO itemToAdd) {
+	public boolean addItem(TransferObject itemToAdd) {
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
 
-			if (itemToAdd instanceof DAOEmployee) {
+			if (itemToAdd instanceof Employee) {
 				s = DatabaseAccess.access.getConnection()
 						.prepareStatement("INSERT INTO " + DAOEmployee.tName + " VALUES(?,?,?,?,?,?);");
 				PreparedStatement maxKey = DatabaseAccess.access.getConnection().prepareStatement(
-						"SELECT MAX(" + itemToAdd.getColumnNames()[0] + ") FROM " + DAOEmployee.tName + ";");
+						"SELECT MAX(" + this.getColumnNames()[0] + ") FROM " + DAOEmployee.tName + ";");
 				ResultSet res = maxKey.executeQuery();
 				res.first();
 				s.setInt(1, res.getInt(1) + 1);
-				for (int i = 1; i < itemToAdd.getColumnNames().length; i++) {
-					s.setString(i + 1, itemToAdd.getColumnValues()[i]);
+				for (int i = 1; i < this.getColumnNames().length; i++) {
+					s.setString(i + 1, itemToAdd.getValues()[i]);
 				}
+				res.close();
 			}
 			System.out.println(s.toString());
 			if (s != null) {
+				DatabaseAccess.access.closeConnection();
 				return s.executeUpdate() == 1;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		DatabaseAccess.access.closeConnection();
 		return result;
 
 	}
 
-	@Override
-	public boolean removeItem(DAO itemToRemove) {
+	public boolean removeItem(TransferObject itemToRemove) {
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
 
-			if (itemToRemove instanceof DAOEmployee) {
-				s = DatabaseAccess.access.getConnection().prepareStatement(
-						"DELETE FROM " + DAOEmployee.tName + " WHERE " + itemToRemove.getColumnNames()[0] + " = "
-								+ ((DAOEmployee) itemToRemove).getEmpNumber());
+			if (itemToRemove instanceof Employee) {
+				s = DatabaseAccess.access.getConnection().prepareStatement("DELETE FROM " + DAOEmployee.tName
+						+ " WHERE " + this.getColumnNames()[0] + " = " + ((Employee) itemToRemove).getEmpNumber());
 			}
 			if (s != null) {
-				return s.executeUpdate() == 1;
+				DatabaseAccess.access.closeConnection();
+				return s.executeUpdate() > 0;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+
+		DatabaseAccess.access.closeConnection();
 		return result;
 	}
 
 	@Override
 
-	public boolean modifyItem(DAO itemToChange) {
+	public boolean modifyItem(TransferObject itemToModify) {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.access.getConnection()
-					.prepareStatement("UPDATE " + DAOEmployee.tName + " SET " + itemToChange.getColumnNames()[1] + "=?,"
-							+ itemToChange.getColumnNames()[2] + "=?," + itemToChange.getColumnNames()[3] + "=?,"
-							+ itemToChange.getColumnNames()[4] + "=?," + itemToChange.getColumnNames()[5] + "=? WHERE "
-							+ itemToChange.getColumnNames()[0] + " = ?;");
+					.prepareStatement("UPDATE " + DAOEmployee.tName + " SET " + this.getColumnNames()[1] + "=?,"
+							+ this.getColumnNames()[2] + "=?," + this.getColumnNames()[3] + "=?,"
+							+ this.getColumnNames()[4] + "=?," + this.getColumnNames()[5] + "=? WHERE "
+							+ this.getColumnNames()[0] + " = ?;");
 
-			for (int i = 1; i < itemToChange.getColumnNames().length; i++) {
-				s.setString(i, itemToChange.getColumnValues()[i]);
+			for (int i = 1; i < this.getColumnNames().length; i++) {
+				s.setString(i, itemToModify.getValues()[i]);
 			}
-			s.setString(6, itemToChange.getColumnValues()[0]);
+			s.setString(6, itemToModify.getValues()[0]);
 
 			if (s != null) {
+				DatabaseAccess.access.closeConnection();
 				return 0 < s.executeUpdate();
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		DatabaseAccess.access.closeConnection();
 		return false;
 	}
 
-	@Override
-	public void createList(ArrayList<DAO> entryList, int numRows) {
+	public ArrayList<TransferObject> createList(int numRows) {
+		ArrayList<TransferObject> entryList = new ArrayList<>();
 		try {
 			ResultSet r = null;
 			if (numRows == -1) {
@@ -211,35 +142,78 @@ public class DAOEmployee extends DAO {
 			if (r != null) {
 				r.first();
 				while (!r.isAfterLast()) {
-					DAO entry = new DAOEmployee();
+					TransferObject entry = (TransferObject) new Employee();
 					for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
 						if (r.getMetaData().getColumnType(i + 1) == Types.VARCHAR) {
-							if (entry.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
-								entry.setString(r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
+							if (this.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
+								this.setString((Employee) entry, r.getString(i + 1),
+										r.getMetaData().getColumnName(i + 1));
 							}
 						} else if (r.getMetaData().getColumnType(i + 1) == Types.CHAR) {
-							if (entry.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
-								entry.setChar(r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
+							if (this.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
+								this.setChar((Employee) entry, r.getString(i + 1),
+										r.getMetaData().getColumnName(i + 1));
 							}
 						} else if (r.getMetaData().getColumnType(i + 1) == Types.INTEGER) {
-							if (entry.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
-								entry.setInt(r.getInt(i + 1), r.getMetaData().getColumnName(i + 1));
+							if (this.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
+								this.setInt((Employee) entry, r.getInt(i + 1), r.getMetaData().getColumnName(i + 1));
 							}
 						} else if (r.getMetaData().getColumnType(i + 1) == Types.DATE) {
-							if (entry.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
-								entry.setDate(r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
+							if (this.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
+								this.setDate((Employee) entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
 							}
 						}
-
 					}
 					entryList.add(entry);
 					r.next();
 				}
 			}
+			r.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		DatabaseAccess.access.closeConnection();
+		return entryList;
 
+	}
+
+	@Override
+	public ArrayList<TransferObject> getItemsByID(int id) {
+		ArrayList<TransferObject> result = new ArrayList<>();
+		try {
+			PreparedStatement s = DatabaseAccess.access.getConnection().prepareStatement(
+					"SELECT * FROM " + DAOEmployee.tName + " WHERE " + this.getColumnNames()[0] + " = ?");
+			s.setInt(1, id);
+			ResultSet r = s.executeQuery();
+			r.first();
+			while (!r.isAfterLast()) {
+				Employee entry = new Employee();
+				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
+					if (this.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
+						this.setString(entry, r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
+					} else if (r.getMetaData().getColumnType(i + 1) == Types.CHAR) {
+						if (this.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
+							this.setChar(entry, r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
+						}
+					} else if (r.getMetaData().getColumnType(i + 1) == Types.INTEGER) {
+						if (this.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
+							this.setInt(entry, r.getInt(i + 1), r.getMetaData().getColumnName(i + 1));
+						}
+					} else if (r.getMetaData().getColumnType(i + 1) == Types.DATE) {
+						if (this.getColumnNames()[i].equals(r.getMetaData().getColumnName(i + 1))) {
+							this.setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
+						}
+					}
+				}
+				result.add((TransferObject) entry);
+				r.next();
+			}
+			r.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		DatabaseAccess.access.closeConnection();
+		return result;
 	}
 
 }

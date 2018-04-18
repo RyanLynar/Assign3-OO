@@ -21,14 +21,16 @@ public class DatabaseAccess {
 	 * Connection con, allows for access and manipulation of the dataset
 	 */
 	private DatabaseAccess() {
+		conProp = new Properties();
+		conProp.put("user", user);
+		conProp.put("password", pass);
+	}
+
+	public void closeConnection() {
 		try {
-			conProp = new Properties();
-			conProp.put("user", user);
-			conProp.put("password", pass);
-			con = DriverManager.getConnection(
-					"jdbc:" + server + "://localhost" + ":" + port + "/" + dbName + "?autoReconnect=true&useSSL=false",
-					conProp);
-			System.out.println("Connected to database");
+			if (!con.isClosed()) {
+				con.close();
+			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -37,6 +39,10 @@ public class DatabaseAccess {
 	public Connection getConnection() {
 		try {
 			if (!con.isClosed()) {
+				return con;
+			} else {
+				con = DriverManager.getConnection("jdbc:" + server + "://localhost" + ":" + port + "/" + dbName
+						+ "?autoReconnect=true&useSSL=false", conProp);
 				return con;
 			}
 		} catch (SQLException e) {
