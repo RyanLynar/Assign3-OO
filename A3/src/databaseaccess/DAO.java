@@ -1,16 +1,18 @@
 package databaseaccess;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import transferobj.TransferObject;
 
-public abstract interface DAO {
-	public abstract String[] getColumnNames();
+public abstract interface DAO<T> {
 	public abstract boolean addItem(TransferObject item);
+
 	public abstract boolean removeItem(TransferObject item);
+
 	public abstract boolean modifyItem(TransferObject item);
-	public abstract ArrayList<TransferObject> createList(int numRows);
-	public abstract ArrayList<TransferObject> getItemsByID(int id);
+
+	public abstract ArrayList<T> createList(int numRows);
+
+	public abstract ArrayList<T> getItemsByID(int id);
 
 }

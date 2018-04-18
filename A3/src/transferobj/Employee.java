@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import databaseaccess.DAOEmployee;
 
-public class Employee implements TransferObject {
+public class Employee implements TransferObject<Employee> {
 	private int empNumber;
 	private String empFName, empLName, empGender;
 	private Date empBDate, empHDate;
@@ -73,27 +73,27 @@ public class Employee implements TransferObject {
 	}
 
 	@Override
-	public ArrayList<TransferObject> getTransferList() {
+	public ArrayList<Employee> getTransferList() {
 		return daoEmp.createList(100);
 	}
 
 	@Override
-	public ArrayList<TransferObject> getTransferObjectByID(int id) {
+	public ArrayList<Employee> getTransferObjectByID(int id) {
 		return daoEmp.getItemsByID(id);
 	}
 
 	@Override
-	public boolean addItem(TransferObject toAdd) {
+	public boolean addItem(Employee toAdd) {
 		return daoEmp.addItem(toAdd);
 	}
 
 	@Override
-	public boolean removeItem(TransferObject toRemove) {
+	public boolean removeItem(Employee toRemove) {
 		return daoEmp.removeItem(toRemove);
 	}
 
 	@Override
-	public boolean modifyItem(TransferObject toModify) {
+	public boolean modifyItem(Employee toModify) {
 		return daoEmp.modifyItem(toModify);
 	}
 
