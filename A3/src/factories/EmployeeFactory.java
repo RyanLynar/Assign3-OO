@@ -15,7 +15,7 @@ public class EmployeeFactory extends AbstractFactory<Employee> {
 	}
 
 	@Override
-	public Employee createFromResults(ResultSet rs) {
+	public Employee createFromResults(ResultSet r) {
 		builder.build(rs);
 		return builder.returnList().get(0);
 	}

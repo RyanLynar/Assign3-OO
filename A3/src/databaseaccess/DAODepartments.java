@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import transferobj.Departments;
 
 public class DAODepartments implements DAO<Departments>{
@@ -18,16 +17,15 @@ public class DAODepartments implements DAO<Departments>{
 		
 		try {
 			s = DatabaseAccess.access.getConnection()
-					.prepareStatement("INSERT INTO "+ DAODepartments.TABLE_NAME + " VALES(?,?);");
+					.prepareStatement("INSERT INTO "+ DAODepartments.TABLE_NAME + " VALUES(?,?);");
 			PreparedStatement maxKey = DatabaseAccess.access.getConnection()
-					.prepareStatement("SELECT MAX(" +DAODepartments.COLUMNS+ ") FROM " +DAODepartments.TABLE_NAME+";");
+					.prepareStatement("SELECT MAX(" +DAODepartments.COLUMNS[0]+ ") FROM " +DAODepartments.TABLE_NAME+";");
 			ResultSet res = maxKey.executeQuery();
 			res.first();
 			s.setInt(1, res.getInt(1) + 1);
-			for(int i = 1; 1 < DAODepartments.COLUMNS.length; i++) {
-				s.setString(i+1, item.getValues()[i]);
-			}
+			s.setInt(2, item.getDeptName());
 			res.close();
+			
 			System.out.println(s.toString());
 			if(s != null) {
 				result = s.executeUpdate() == 1;
@@ -67,10 +65,8 @@ public class DAODepartments implements DAO<Departments>{
 			s = DatabaseAccess.access.getConnection()
 					.prepareStatement("UPDATE " + DAODepartments.TABLE_NAME + " SET " + DAODepartments.COLUMNS[1] + "=?"
 							+ " WHERE " + DAODepartments.COLUMNS[0] + " = ?;");
-
-			for (int i = 1; i < DAOEmployee.COLUMNS.length; i++) {
-				s.setString(i, item.getValues()[i]);
-			}
+			
+			s.setInt(1, item.getDeptName());
 			s.setString(2, item.getValues()[0]);
 
 			if (s != null) {
@@ -86,8 +82,25 @@ public class DAODepartments implements DAO<Departments>{
 
 	@Override
 	public ArrayList<Departments> createList(int numRows) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Departments> entryList = new ArrayList<>();
+		try {
+			ResultSet r = null;
+			if (numRows == -1) {
+				r = DatabaseAccess.access.getConnection().prepareStatement("SELECT * FROM " + DAODepartments.TABLE_NAME + ";")
+						.executeQuery();
+			} else {
+				r = DatabaseAccess.access.getConnection().prepareStatement("SELECT * FROM " + DAODepartments.TABLE_NAME + ";")
+						.executeQuery();
+			}
+			if (r != null) {
+				EmployeeFactory fact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
+				entryList = fact.createListFromResults(r);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		DatabaseAccess.access.closeConnection();
+		return entryList;
 	}
 
 	@Override
