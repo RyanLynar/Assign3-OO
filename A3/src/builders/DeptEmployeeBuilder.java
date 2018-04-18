@@ -53,7 +53,7 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 						}
 					} else if (r.getMetaData().getColumnType(i + 1) == Types.DATE) {
 						if (DAODeptEmployee.COLUMNS[i].equals(r.getMetaData().getColumnName(i + 1))) {
-							setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1);
+							setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
 						}
 					}
 				}
@@ -69,9 +69,6 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 	@Override
 	public ArrayList<DeptEmployee> returnList() {
 		return eList;
-	}
-	public static void main(string[] args) {
-		System.out.println("Running");
 	}
 
 }
