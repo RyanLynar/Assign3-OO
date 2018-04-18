@@ -55,7 +55,7 @@ public class DAOEmployee implements DAO<Employee> {
 			if (s != null) {
 				result = s.executeUpdate()==1;
 				DatabaseAccess.access.closeConnection();
-				return result
+				return result;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

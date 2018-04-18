@@ -9,11 +9,6 @@ public class Employee implements TransferObject<Employee> {
 	private int empNumber;
 	private String empFName, empLName, empGender;
 	private Date empBDate, empHDate;
-	private DAOEmployee daoEmp = null;
-
-	public Employee() {
-		daoEmp = new DAOEmployee();
-	}
 
 	public int getEmpNumber() {
 		return empNumber;
