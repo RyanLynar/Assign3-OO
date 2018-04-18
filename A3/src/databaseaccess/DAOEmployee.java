@@ -39,9 +39,9 @@ public class DAOEmployee implements DAO<Employee> {
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
-			s = DatabaseAccess.access.getConnection()
+			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("INSERT INTO " + DAOEmployee.tName + " VALUES(?,?,?,?,?,?);");
-			PreparedStatement maxKey = DatabaseAccess.access.getConnection()
+			PreparedStatement maxKey = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("SELECT MAX(" + DAOEmployee.COLUMNS[0] + ") FROM " + DAOEmployee.tName + ";");
 			ResultSet res = maxKey.executeQuery();
 			res.first();
@@ -56,13 +56,13 @@ public class DAOEmployee implements DAO<Employee> {
 			System.out.println(s.toString());
 			if (s != null) {
 				result = s.executeUpdate() == 1;
-				DatabaseAccess.access.closeConnection();
+				DatabaseAccess.getInstance().closeConnection();
 				return result;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		DatabaseAccess.access.closeConnection();
+		DatabaseAccess.getInstance().closeConnection();
 		return result;
 
 	}
@@ -72,18 +72,18 @@ public class DAOEmployee implements DAO<Employee> {
 		PreparedStatement s = null;
 		try {
 
-			s = DatabaseAccess.access.getConnection().prepareStatement(
+			s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"DELETE FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
 
 			if (s != null) {
-				DatabaseAccess.access.closeConnection();
+				DatabaseAccess.getInstance().closeConnection();
 				return s.executeUpdate() > 0;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 
-		DatabaseAccess.access.closeConnection();
+		DatabaseAccess.getInstance().closeConnection();
 		return result;
 	}
 
@@ -93,7 +93,7 @@ public class DAOEmployee implements DAO<Employee> {
 		PreparedStatement s = null;
 		boolean result=false;
 		try {
-			s = DatabaseAccess.access.getConnection()
+			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("UPDATE " + DAOEmployee.tName + " SET " + DAOEmployee.COLUMNS[1] + "=?,"
 							+ DAOEmployee.COLUMNS[2] + "=?," + DAOEmployee.COLUMNS[3] + "=?," + DAOEmployee.COLUMNS[4]
 							+ "=?," + DAOEmployee.COLUMNS[5] + "=? WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
@@ -106,13 +106,13 @@ public class DAOEmployee implements DAO<Employee> {
 
 			if (s != null) {
 				result = s.executeUpdate() >0;
-				DatabaseAccess.access.closeConnection();
+				DatabaseAccess.getInstance().closeConnection();
 				return result;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		DatabaseAccess.access.closeConnection();
+		DatabaseAccess.getInstance().closeConnection();
 		return result;
 	}
 
@@ -121,10 +121,10 @@ public class DAOEmployee implements DAO<Employee> {
 		try {
 			ResultSet r = null;
 			if (numRows == -1) {
-				r = DatabaseAccess.access.getConnection().prepareStatement("SELECT * FROM " + tName + ";")
+				r = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT * FROM " + tName + ";")
 						.executeQuery();
 			} else {
-				r = DatabaseAccess.access.getConnection()
+				r = DatabaseAccess.getInstance().getConnection()
 						.prepareStatement("SELECT * FROM " + DAOEmployee.tName +";").executeQuery();
 			}
 			if (r != null) {
@@ -134,7 +134,7 @@ public class DAOEmployee implements DAO<Employee> {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		DatabaseAccess.access.closeConnection();
+		DatabaseAccess.getInstance().closeConnection();
 		return entryList;
 
 	}
@@ -143,7 +143,7 @@ public class DAOEmployee implements DAO<Employee> {
 		ArrayList<Employee> result = new ArrayList<>();
 		try {
 			ResultSet r = null;
-			PreparedStatement s = DatabaseAccess.access.getConnection().prepareStatement(
+			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"SELECT * FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?");
 			r = s.executeQuery();
 			if (r != null) {
@@ -153,7 +153,7 @@ public class DAOEmployee implements DAO<Employee> {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		DatabaseAccess.access.closeConnection();
+		DatabaseAccess.getInstance().closeConnection();
 		return result;
 
 	}

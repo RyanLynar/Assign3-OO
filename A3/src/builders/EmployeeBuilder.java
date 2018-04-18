@@ -50,6 +50,7 @@ public class EmployeeBuilder implements AbstractBuilder<Employee> {
 	public void build(ResultSet r) {
 		eList.clear();
 		try {
+			r.first();
 			while (!r.isAfterLast()) {
 				Employee entry = new Employee();
 				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {

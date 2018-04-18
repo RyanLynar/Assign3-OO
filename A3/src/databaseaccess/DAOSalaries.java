@@ -1,5 +1,6 @@
 package databaseaccess;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -12,6 +13,11 @@ public class DAOSalaries implements DAO<Salaries> {
 	public boolean addItem(Salaries item) {
 		boolean result = false;
 		PreparedStatement s = null;
+	//	try {
+			
+	//	}catch(SQLException e) {
+		//	System.out.println(e.getMessage());
+		//}
 		return result;
 	}
 

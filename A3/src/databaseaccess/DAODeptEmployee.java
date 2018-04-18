@@ -20,13 +20,13 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
-			s = DatabaseAccess.access.getConnection()
+			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("INSERT INTO " + DAODeptEmployee.tName + " VALUES(?,?,?,?);");
 			for (int i = 0; i < DAODeptEmployee.COLUMNS.length; i++) {
 				s.setString(i, item.getValues()[i]);
 			}
 			result = s.executeUpdate() == 1;
-			DatabaseAccess.access.closeConnection();
+			DatabaseAccess.getInstance().closeConnection();
 			return result;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -39,13 +39,13 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
-			s = DatabaseAccess.access.getConnection().prepareStatement("DELETE FROM " + DAODeptEmployee.tName
+			s = DatabaseAccess.getInstance().getConnection().prepareStatement("DELETE FROM " + DAODeptEmployee.tName
 					+ " WHERE " + DAODeptEmployee.COLUMNS[0] + " = ? AND " + DAODeptEmployee.COLUMNS[1] + " =?;");
 			s.setInt(1, item.getEmpID());
 			s.setString(2, item.getDeptID());
 
 			result = s.executeUpdate() > 0;
-			DatabaseAccess.access.closeConnection();
+			DatabaseAccess.getInstance().closeConnection();
 			return result;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -58,7 +58,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
-			s = DatabaseAccess.access.getConnection()
+			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("UPDATE " + DAODeptEmployee.tName + " SET " + DAODeptEmployee.COLUMNS[2] + "=?"
 							+ DAODeptEmployee.COLUMNS[3] + "=? + WHERE " + DAODeptEmployee.COLUMNS[0] + " =? AND "
 							+ DAODeptEmployee.COLUMNS[1] + "=?;");
@@ -67,7 +67,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 			s.setInt(3, item.getEmpID());
 			s.setString(4, item.getDeptID());
 			result = s.execute();
-			DatabaseAccess.access.closeConnection();
+			DatabaseAccess.getInstance().closeConnection();
 			return result;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -80,7 +80,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		ArrayList<DeptEmployee> result = new ArrayList<>();
 		try {
 			ResultSet r = null;
-			r = DatabaseAccess.access.getConnection().prepareStatement("SELECT * FROM " + DAODeptEmployee.tName + ";")
+			r = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT * FROM " + DAODeptEmployee.tName + ";")
 					.executeQuery();
 			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
 			result = fact.createListFromResults(r);
@@ -94,12 +94,12 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 	public ArrayList<DeptEmployee> getItemsByID(int id) {
 		ArrayList<DeptEmployee> result = new ArrayList<>();
 		try {
-			PreparedStatement s = DatabaseAccess.access.getConnection()
+			PreparedStatement s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("SELECT * FROM " + DAODeptEmployee.tName + "WHERE" + DAODeptEmployee.COLUMNS[0]);
 			ResultSet r = s.executeQuery();
 			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
 			result = fact.createListFromResults(r);
-			DatabaseAccess.access.closeConnection();
+			DatabaseAccess.getInstance().closeConnection();
 			return result;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

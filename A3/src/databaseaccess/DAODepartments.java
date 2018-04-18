@@ -17,9 +17,9 @@ public class DAODepartments implements DAO<Departments>{
 		PreparedStatement s = null;
 		
 		try {
-			s = DatabaseAccess.access.getConnection()
+			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("INSERT INTO "+ DAODepartments.TABLE_NAME + " VALES(?,?);");
-			PreparedStatement maxKey = DatabaseAccess.access.getConnection()
+			PreparedStatement maxKey = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("SELECT MAX(" +DAODepartments.COLUMNS+ ") FROM " +DAODepartments.TABLE_NAME+";");
 			ResultSet res = maxKey.executeQuery();
 			res.first();
@@ -31,13 +31,13 @@ public class DAODepartments implements DAO<Departments>{
 			System.out.println(s.toString());
 			if(s != null) {
 				result = s.executeUpdate() == 1;
-				DatabaseAccess.access.closeConnection();
+				DatabaseAccess.getInstance().closeConnection();
 				return result;
 			}
 		} catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		DatabaseAccess.access.closeConnection();
+		DatabaseAccess.getInstance().closeConnection();
 		return result;		
 	}
 
@@ -46,17 +46,17 @@ public class DAODepartments implements DAO<Departments>{
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
-			s = DatabaseAccess.access.getConnection().prepareStatement(
+			s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"DELETE FROM " + DAODepartments.TABLE_NAME + " WHERE " + DAODepartments.COLUMNS[0] + " = ?;");
 			if (s != null) {
-				DatabaseAccess.access.closeConnection();
+				DatabaseAccess.getInstance().closeConnection();
 				return s.executeUpdate() > 0;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 
-		DatabaseAccess.access.closeConnection();
+		DatabaseAccess.getInstance().closeConnection();
 		return result;
 	}
 
@@ -64,7 +64,7 @@ public class DAODepartments implements DAO<Departments>{
 	public boolean modifyItem(Departments item) {
 		PreparedStatement s = null;
 		try {
-			s = DatabaseAccess.access.getConnection()
+			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("UPDATE " + DAODepartments.TABLE_NAME + " SET " + DAODepartments.COLUMNS[1] + "=?"
 							+ " WHERE " + DAODepartments.COLUMNS[0] + " = ?;");
 
@@ -74,13 +74,13 @@ public class DAODepartments implements DAO<Departments>{
 			s.setString(2, item.getValues()[0]);
 
 			if (s != null) {
-				DatabaseAccess.access.closeConnection();
+				DatabaseAccess.getInstance().closeConnection();
 				return 0 < s.executeUpdate();
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		DatabaseAccess.access.closeConnection();
+		DatabaseAccess.getInstance().closeConnection();
 		return false;
 	}
 

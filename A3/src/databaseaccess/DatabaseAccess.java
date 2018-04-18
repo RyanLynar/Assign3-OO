@@ -5,13 +5,21 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.mysql.jdbc.Driver;
+
 public class DatabaseAccess {
 	public static String server = "mysql";
 	public static String port = "3306";
 	public static String user = "root";
 	public static String pass = "Ec!66440";
 	public static String dbName = "employees";
-	public static DatabaseAccess access = new DatabaseAccess();
+	private static DatabaseAccess access;
+	public static DatabaseAccess getInstance()
+	{
+		if(access != null)
+			access = new DatabaseAccess();
+		return access;
+	}
 	private Connection con;
 	private Properties conProp;
 
@@ -21,7 +29,7 @@ public class DatabaseAccess {
 	 * Connection con, allows for access and manipulation of the dataset
 	 */
 	private DatabaseAccess() {
-		con = new Connection();
+		con = null;
 		conProp = new Properties();
 		conProp.put("user", user);
 		conProp.put("password", pass);
@@ -39,13 +47,12 @@ public class DatabaseAccess {
 
 	public Connection getConnection() {
 		try {
-			if (!con.isClosed()) {
-				return con;
-			} else {
-				con = DriverManager.getConnection("jdbc:" + server + "://localhost" + ":" + port + "/" + dbName
-						+ "?autoReconnect=true&useSSL=false", conProp);
-				return con;
-			}
+			new Driver();
+			con = DriverManager.getConnection(
+					"jdbc:" + server + "://localhost" + ":" + port + "/" + dbName + "?autoReconnect=true&useSSL=false",
+					conProp);
+			return con;
+
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -59,5 +66,7 @@ public class DatabaseAccess {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	public static void main(String args) {
+		DatabaseAccess.access.getConnection();
+	}
 }
