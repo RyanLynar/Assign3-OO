@@ -1,23 +1,24 @@
 package databaseaccess;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.mysql.jdbc.PreparedStatement;
 
 import transferobj.Salaries;
 
 public class DAOSalaries implements DAO<Salaries> {
-
+	public static String tName="salaries";
+	public static String[] COLUMNS = new String[] {"emp_no","salary","from_date","to_date"};
 	@Override
 	public boolean addItem(Salaries item) {
 		boolean result = false;
 		PreparedStatement s = null;
-	//	try {
-			
-	//	}catch(SQLException e) {
-		//	System.out.println(e.getMessage());
-		//}
+		try {
+			s = DatabaseAccess.getInstance().getConnection().prepareStatement("INSERT INTO " +DAOSalaries.tName + " VALUES(?,?,?,?);");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		return result;
 	}
 

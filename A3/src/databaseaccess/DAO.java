@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 
 public abstract interface DAO<T> {
+	public static String tName = null;
+	public static String[] COLUMNS = null;
 	public abstract boolean addItem(T item);
 
 	public abstract boolean removeItem(T item);

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import transferobj.DeptManager;
 
 public class DAODeptManager implements DAO<DeptManager>{
-
+	
 	@Override
 	public boolean addItem(DeptManager item) {
 		// TODO Auto-generated method stub
