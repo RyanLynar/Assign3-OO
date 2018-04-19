@@ -52,6 +52,7 @@ public class DAODepartments implements DAO<Departments>{
 
 	@Override
 	public boolean removeItem(Departments item) {
+		//TODO Make Transactional so that it removes all items with the same key from other tables
 		boolean result = false;
 		PreparedStatement s = null;
 		try {

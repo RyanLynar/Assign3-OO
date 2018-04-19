@@ -40,8 +40,7 @@ public class Salaries implements TransferObject<Salaries> {
 
 	@Override
 	public String[] getValues() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] {""+getEmpNo(),""+getSalary(),getfDate().toString(),gettDate().toString()};
 	}
 
 	@Override

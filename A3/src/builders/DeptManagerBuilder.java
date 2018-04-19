@@ -54,6 +54,8 @@ public class DeptManagerBuilder implements AbstractBuilder<DeptManager>{
 						}
 					}
 				}
+				eList.add(entry);
+				r.next();
 			}
 
 		}catch(SQLException e) {

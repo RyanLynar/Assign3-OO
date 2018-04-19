@@ -40,7 +40,6 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 	public void build(ResultSet r) {
 		eList.clear();
 		try {
-			r.first();
 			while (!r.isAfterLast()) {
 				DeptEmployee entry = new DeptEmployee();
 				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
@@ -57,7 +56,10 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 							setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
 						}
 					}
+					
 				}
+			eList.add(entry);
+			r.next();
 			}
 		} catch (
 
@@ -84,5 +86,5 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 		entry.settDate(Date.valueOf(input[3]));
 		
 	}
-
+	
 }

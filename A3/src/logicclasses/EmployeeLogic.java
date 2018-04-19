@@ -2,7 +2,11 @@ package logicclasses;
 
 import java.util.ArrayList;
 
+import databaseaccess.DAODeptEmployee;
+import databaseaccess.DAODeptManager;
 import databaseaccess.DAOEmployee;
+import databaseaccess.DAOSalaries;
+import databaseaccess.DAOTitles;
 import factories.EmployeeFactory;
 import factories.TransferFactoryCreator;
 import transferobj.Employee;
@@ -32,6 +36,22 @@ public class EmployeeLogic implements Logic<Employee> {
 
 	@Override
 	public boolean remove(String[] toRemove) {
+		DAODeptEmployee dEmp = new DAODeptEmployee();
+		DAODeptManager dMan = new DAODeptManager();
+		DAOTitles titles = new DAOTitles();
+		DAOSalaries salaries= new DAOSalaries();
+		if(dEmp.getItemsByID(Integer.parseInt(toRemove[0])).size() != 0) {
+			return false;
+		}
+		if(dMan.getItemsByID(Integer.parseInt(toRemove[0])).size() != 0) {
+			return false;
+		}
+		if(titles.getItemsByID(Integer.parseInt(toRemove[0])).size()!=0) {
+			return false;
+		}
+		if(salaries.getItemsByID(Integer.parseInt(toRemove[0])).size()!=0) {
+			return false;
+		}
 		Employee item = eFact.createFromInput(toRemove);
 		return daoEmp.removeItem(item);
 	}

@@ -67,6 +67,7 @@ public class DAOEmployee implements DAO<Employee> {
 	}
 
 	public boolean removeItem(Employee itemToRemove) {
+		//TODO Make Transactional so that it removes all items with the same key from other tables
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
