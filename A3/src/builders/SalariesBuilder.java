@@ -51,6 +51,7 @@ public class SalariesBuilder implements AbstractBuilder<Salaries> {
 					}
 				}
 				eList.add(entry);
+				r.next();
 			}
 			r.close();
 		} catch (SQLException e) {

@@ -38,7 +38,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection().prepareStatement("DELETE FROM " + DAODeptEmployee.tName
-					+ " WHERE " + DAODeptEmployee.COLUMNS[0] + " = ? AND " + DAODeptEmployee.COLUMNS[1] + " =?;");
+					+ " WHERE " + DAODeptEmployee.COLUMNS[0] + " = ? AND " + DAODeptEmployee.COLUMNS[1] + " = ?;");
 			s.setInt(1, item.getEmpID());
 			s.setString(2, item.getDeptID());
 
@@ -93,8 +93,10 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		ArrayList<DeptEmployee> result = new ArrayList<>();
 		try {
 			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
-					"SELECT * FROM " + DAODeptEmployee.tName + "WHERE " + DAODeptEmployee.COLUMNS[0] + " =?;");
+					"SELECT * FROM " + DAODeptEmployee.tName + " WHERE " + DAODeptEmployee.COLUMNS[0] + " = ?;");
 			s.setInt(1, id);
+
+			System.out.println("DEPTE Statement " + s.toString());
 			ResultSet r = s.executeQuery();
 			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
 			result = fact.createListFromResults(r);

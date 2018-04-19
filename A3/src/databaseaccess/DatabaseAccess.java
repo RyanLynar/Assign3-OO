@@ -14,12 +14,13 @@ public class DatabaseAccess {
 	public static String pass = "password";
 	public static String dbName = "employees";
 	private static DatabaseAccess access;
-	public static DatabaseAccess getInstance()
-	{
-		if(access != null)
+
+	public static DatabaseAccess getInstance() {
+		if (access == null)
 			access = new DatabaseAccess();
 		return access;
 	}
+
 	private Connection con;
 	private Properties conProp;
 
@@ -66,6 +67,7 @@ public class DatabaseAccess {
 			System.out.println(e.getMessage());
 		}
 	}
+
 	public static void main(String args) {
 		DatabaseAccess.access.getConnection();
 	}
