@@ -2,38 +2,37 @@ package logicclasses;
 
 import java.util.ArrayList;
 
+import databaseaccess.DAOTitles;
 import transferobj.Titles;
 
 public class TitlesLogic implements Logic<Titles> {
-
+	private DAOTitles daoTitle = null;
+	public TitlesLogic() {
+		daoTitle = new DAOTitles();
+	}
 	@Override
 	public boolean add(Titles itemToAdd) {
-		// TODO Auto-generated method stub
-		return false;
+		return daoTitle.addItem(itemToAdd);
 	}
 
 	@Override
 	public boolean remove(Titles itemToRemove) {
-		// TODO Auto-generated method stub
-		return false;
+		return daoTitle.removeItem(itemToRemove);
 	}
 
 	@Override
 	public boolean modify(Titles itemToModify) {
-		// TODO Auto-generated method stub
-		return false;
+		return daoTitle.modifyItem(itemToModify);
 	}
 
 	@Override
 	public ArrayList<Titles> getByID(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoTitle.getItemsByID(id);
 	}
 
 	@Override
 	public ArrayList<Titles> getObjects(int rowNumber) {
-		// TODO Auto-generated method stub
-		return null;
+		return daoTitle.createList(rowNumber);
 	}
 
 }

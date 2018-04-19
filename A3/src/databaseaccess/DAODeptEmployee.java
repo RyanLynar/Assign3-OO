@@ -64,7 +64,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 			s.setDate(2, item.gettDate());
 			s.setInt(3, item.getEmpID());
 			s.setString(4, item.getDeptID());
-			result = s.execute();
+			result = s.executeUpdate() > 0;
 			DatabaseAccess.getInstance().closeConnection();
 			return result;
 		} catch (SQLException e) {
@@ -78,8 +78,8 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		ArrayList<DeptEmployee> result = new ArrayList<>();
 		try {
 			ResultSet r = null;
-			r = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT * FROM " + DAODeptEmployee.tName + ";")
-					.executeQuery();
+			r = DatabaseAccess.getInstance().getConnection()
+					.prepareStatement("SELECT * FROM " + DAODeptEmployee.tName + ";").executeQuery();
 			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
 			result = fact.createListFromResults(r);
 		} catch (SQLException e) {
@@ -92,18 +92,18 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 	public ArrayList<DeptEmployee> getItemsByID(int id) {
 		ArrayList<DeptEmployee> result = new ArrayList<>();
 		try {
-			PreparedStatement s = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("SELECT * FROM " + DAODeptEmployee.tName + "WHERE" + DAODeptEmployee.COLUMNS[0]);
+			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
+					"SELECT * FROM " + DAODeptEmployee.tName + "WHERE " + DAODeptEmployee.COLUMNS[0] + " =?;");
+			s.setInt(1, id);
 			ResultSet r = s.executeQuery();
 			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
 			result = fact.createListFromResults(r);
 			DatabaseAccess.getInstance().closeConnection();
-			return result;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		// TODO Auto-generated method stub
-		return null;
+		return result;
 	}
 
 }
