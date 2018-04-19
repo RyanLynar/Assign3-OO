@@ -23,7 +23,6 @@ public class DepartmentsLogic implements Logic<Departments>{
 	@Override
 	public boolean remove(String[] deptToRemove) {
 		Departments item = dFact.createFromInput(deptToRemove);
-		
 		return daoDept.removeItem(item);
 	}
 

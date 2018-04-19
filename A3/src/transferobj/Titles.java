@@ -41,8 +41,7 @@ public class Titles implements TransferObject<Titles> {
 
 	@Override
 	public String[] getValues() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] {""+getEmpNo(),getTitle(),getfDate().toString(),gettDate().toString()};
 	}
 
 	@Override

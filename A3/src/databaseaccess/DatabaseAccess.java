@@ -8,18 +8,19 @@ import java.util.Properties;
 import com.mysql.jdbc.Driver;
 
 public class DatabaseAccess {
-	public static String server = "mysql";
-	public static String port = "3306";
-	public static String user = "root";
-	public static String pass = "Ec!66440";
-	public static String dbName = "employees";
+	private static String server = "mysql";
+	private static String port = "3306";
+	private static String user = "root";
+	private static String pass = "Ec!66440";
+	private static String dbName = "employees";
 	private static DatabaseAccess access;
-	public static DatabaseAccess getInstance()
-	{
-		if(access != null)
+
+	public static DatabaseAccess getInstance() {
+		if (access == null)
 			access = new DatabaseAccess();
 		return access;
 	}
+
 	private Connection con;
 	private Properties conProp;
 
@@ -66,6 +67,7 @@ public class DatabaseAccess {
 			System.out.println(e.getMessage());
 		}
 	}
+
 	public static void main(String args) {
 		DatabaseAccess.access.getConnection();
 	}
