@@ -11,7 +11,7 @@ public class DatabaseAccess {
 	public static String server = "mysql";
 	public static String port = "3306";
 	public static String user = "root";
-	public static String pass = "Ec!66440";
+	public static String pass = "password";
 	public static String dbName = "employees";
 	private static DatabaseAccess access;
 	public static DatabaseAccess getInstance()
