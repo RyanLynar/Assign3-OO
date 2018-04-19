@@ -12,7 +12,7 @@ import transferobj.Employee;
 public class EmployeeBuilder implements AbstractBuilder<Employee> {
 	private ArrayList<Employee> eList;
 
-	public void setString(Employee newEmp, String data, String cName) {
+	private void setString(Employee newEmp, String data, String cName) {
 		if (cName.equals("first_name")) {
 			newEmp.setEmpFName(data);
 		} else if (cName.equals("last_name")) {
@@ -20,20 +20,20 @@ public class EmployeeBuilder implements AbstractBuilder<Employee> {
 		}
 	}
 
-	public void setChar(Employee newEmp, String data, String cName) {
+	private void setChar(Employee newEmp, String data, String cName) {
 		if (cName.equals("gender")) {
 			newEmp.setEmpGender(data);
 		}
 	}
 
-	public void setInt(Employee newEmp, int data, String cName) {
+	private void setInt(Employee newEmp, int data, String cName) {
 		if (cName.equals("emp_no")) {
 			newEmp.setEmpNumber(data);
 		}
 
 	}
 
-	public void setDate(Employee newEmp, Date data, String cName) {
+	private void setDate(Employee newEmp, Date data, String cName) {
 		if (cName.equals("birth_date")) {
 			newEmp.setEmpBDate(data);
 		} else if (cName.equals("hire_date")) {

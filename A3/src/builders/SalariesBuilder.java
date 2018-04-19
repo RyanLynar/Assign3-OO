@@ -16,7 +16,7 @@ public class SalariesBuilder implements AbstractBuilder<Salaries> {
 		eList = new ArrayList<>();
 	}
 
-	public void setDate(Salaries newEntry, Date data, String cName) {
+	private void setDate(Salaries newEntry, Date data, String cName) {
 		if (cName.equals("to_date")) {
 			newEntry.settDate(data);
 		} else if (cName.equals("from_date")) {
@@ -24,7 +24,7 @@ public class SalariesBuilder implements AbstractBuilder<Salaries> {
 		}
 	}
 
-	public void setInt(Salaries newEntry, int data, String cName) {
+	private void setInt(Salaries newEntry, int data, String cName) {
 		if (cName.equals("emp_no")) {
 			newEntry.setEmpNo(data);
 		} else if (cName.equals("salary")) {

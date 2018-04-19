@@ -12,19 +12,19 @@ import transferobj.DeptEmployee;
 public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 	ArrayList<DeptEmployee> eList;
 
-	public void setString(DeptEmployee newEntry, String data, String cName) {
+	private void setString(DeptEmployee newEntry, String data, String cName) {
 		if (cName.equals("dept_no")) {
 			newEntry.setDeptID(data);
 		}
 	}
 
-	public void setInt(DeptEmployee newEntry, int data, String cName) {
+	private void setInt(DeptEmployee newEntry, int data, String cName) {
 		if (cName.equals("emp_no")) {
 			newEntry.setEmpID(data);
 		}
 	}
 
-	public void setDate(DeptEmployee newEntry, Date data, String cName) {
+	private void setDate(DeptEmployee newEntry, Date data, String cName) {
 		if (cName.equals("from_date")) {
 			newEntry.setfDate(data);
 		} else if (cName.equals("to_date")) {

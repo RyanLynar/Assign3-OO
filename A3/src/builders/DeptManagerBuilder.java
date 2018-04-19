@@ -14,15 +14,15 @@ import transferobj.Employee;
 public class DeptManagerBuilder implements AbstractBuilder<DeptManager>{
 	private ArrayList<DeptManager> eList;
 	
-	public void setString(DeptManager newDM, String data, String cName) {
+	private void setString(DeptManager newDM, String data, String cName) {
 		newDM.setDeptNumber(data);
 	}
 	
-	public void setInt(DeptManager newDM, int data, String cName) {
+	private void setInt(DeptManager newDM, int data, String cName) {
 		newDM.setEmployeeNumber(data);
 	}
 	
-	public void setDate(DeptManager newDM, Date data, String cName) {
+	private void setDate(DeptManager newDM, Date data, String cName) {
 		if (cName.equals("from_date")) {
 			newDM.setFromDate(data);
 		} else if (cName.equals("to_date")) {

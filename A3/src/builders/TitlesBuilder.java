@@ -16,20 +16,20 @@ public class TitlesBuilder implements AbstractBuilder<Titles> {
 		eList = new ArrayList<>();
 	}
 
-	public void setString(Titles newEntry, String data, String cName) {
+	private void setString(Titles newEntry, String data, String cName) {
 		if (cName.equals("title")) {
 			newEntry.setTitle(data);
 		}
 
 	}
 
-	public void setInt(Titles newEntry, int data, String cName) {
+	private void setInt(Titles newEntry, int data, String cName) {
 		if (cName.equals("emp_no")) {
 			newEntry.setEmpNo(data);
 		}
 	}
 
-	public void setDate(Titles newEntry, Date data, String cName) {
+	private void setDate(Titles newEntry, Date data, String cName) {
 		if (cName.equals("from_date'")) {
 			newEntry.setfDate(data);
 		} else if (cName.equals("start_date")) {

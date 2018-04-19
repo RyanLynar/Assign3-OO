@@ -14,7 +14,7 @@ public class DepartmentsBuilder implements AbstractBuilder<Departments>{
 		eList = new ArrayList<Departments>();
 	}
 	
-	public void setString(Departments newEmp, String data, String cName) {
+	private void setString(Departments newEmp, String data, String cName) {
 		if (cName.equals("dept_no")) {
 			newEmp.setDeptNumber(data);
 		} else if (cName.equals("dept_name")) {

@@ -10,10 +10,12 @@ import transferobj.Titles;
 public class TitlesLogic implements Logic<Titles> {
 	private DAOTitles daoTitle = null;
 	private TitlesFactory tFact;
+
 	public TitlesLogic() {
 		daoTitle = new DAOTitles();
 		tFact = (TitlesFactory) TransferFactoryCreator.createBuilder(Titles.class);
 	}
+
 	@Override
 	public boolean add(String[] itemToAdd) {
 		Titles item = tFact.createFromInput(itemToAdd);
