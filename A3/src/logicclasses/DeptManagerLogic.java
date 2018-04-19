@@ -7,13 +7,13 @@ import factories.DeptManagerFactory;
 import factories.TransferFactoryCreator;
 import transferobj.DeptManager;
 
-public class DeptManagerLogic implements Logic<DeptManager>{
+public class DeptManagerLogic implements Logic<DeptManager> {
 	private DAODeptManager daoDeptManager;
 	private DeptManagerFactory dmFact;
-	
+
 	public DeptManagerLogic() {
 		daoDeptManager = new DAODeptManager();
-		dmFact =(DeptManagerFactory) TransferFactoryCreator.createBuilder(DeptManager.class);
+		dmFact = (DeptManagerFactory) TransferFactoryCreator.createBuilder(DeptManager.class);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class DeptManagerLogic implements Logic<DeptManager>{
 	}
 
 	@Override
-	public boolean modify(String[]  itemToModify) {
+	public boolean modify(String[] itemToModify) {
 		DeptManager item = dmFact.createFromInput(itemToModify);
 		return daoDeptManager.modifyItem(item);
 	}
@@ -44,4 +44,4 @@ public class DeptManagerLogic implements Logic<DeptManager>{
 		return daoDeptManager.createList(rowNumber);
 	}
 
-}
+	}

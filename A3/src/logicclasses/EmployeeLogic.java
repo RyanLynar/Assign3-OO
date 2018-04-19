@@ -61,6 +61,11 @@ public class EmployeeLogic implements Logic<Employee> {
 		Employee item = eFact.createFromInput(toModify);
 		return daoEmp.modifyItem(item);
 	}
-
+	public static void main(String args[]) {
+		DAOEmployee dao = new DAOEmployee();
+		EmployeeLogic log = new EmployeeLogic();
+		System.out.println("RESULT " +log.remove(new String[]{"10011","1963-06-01","farts","Piveteau","F","1988-08-24"}));
+		
+	}
 
 }

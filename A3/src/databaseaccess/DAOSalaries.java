@@ -46,7 +46,7 @@ public class DAOSalaries implements DAO<Salaries> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("DELETE FROM " + DAOSalaries.tName + " WHERE " + DAOSalaries.COLUMNS[0] + " =?;");
+					.prepareStatement("DELETE FROM " + DAOSalaries.tName + " WHERE " + DAOSalaries.COLUMNS[0] + " = ?;");
 			if (s != null) {
 				result = s.executeUpdate() > 0;
 				DatabaseAccess.getInstance().closeConnection();
@@ -114,6 +114,8 @@ public class DAOSalaries implements DAO<Salaries> {
 		try {
 			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"SELECT * FROM " + DAOSalaries.tName + " WHERE " + DAOSalaries.COLUMNS[0] + " = ?;");
+			s.setInt(1, id);
+			System.out.println("Salary Statement " + s.toString());
 			ResultSet r = s.executeQuery();
 			if(r!=null) {
 				SalariesFactory fact = (SalariesFactory) TransferFactoryCreator.createBuilder(Salaries.class);

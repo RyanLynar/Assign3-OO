@@ -9,7 +9,10 @@ import transferobj.Titles;
 
 public class TitlesFactory extends AbstractFactory<Titles>{
 	TitlesBuilder builder;
-
+	
+	public TitlesFactory() {
+		builder = new TitlesBuilder();
+	}
 	@Override
 	public Titles createFromResults(ResultSet rs) {
 		// TODO Auto-generated method stub
@@ -24,6 +27,7 @@ public class TitlesFactory extends AbstractFactory<Titles>{
 
 	@Override
 	public ArrayList<Titles> createListFromResults(ResultSet r) {
+		System.out.println("Create Result");
 		builder.build(r);
 		return builder.returnList();
 	}

@@ -9,9 +9,11 @@ import com.sun.media.sound.DirectAudioDeviceProvider;
 
 import factories.DepartmentsFactory;
 import factories.EmployeeFactory;
+import factories.TitlesFactory;
 import factories.TransferFactoryCreator;
 import transferobj.Departments;
 import transferobj.Employee;
+import transferobj.Titles;
 
 public class DAODepartments implements DAO<Departments>{
 	public static String TABLE_NAME = "departments";
@@ -121,8 +123,20 @@ public class DAODepartments implements DAO<Departments>{
 
 	@Override
 	public ArrayList<Departments> getItemsByID(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Departments> entryList = new ArrayList<>();
+		try {
+			PreparedStatement s = DatabaseAccess.getInstance().getConnection()
+					.prepareStatement("SELECT * FROM " + DAODepartments.tName + " WHERE " + DAODepartments.COLUMNS[0] + " = ? ;");
+			s.setInt(1, id);
+			System.out.println(s.toString());
+			ResultSet r = s.executeQuery();
+			DepartmentsFactory fact = (DepartmentsFactory) TransferFactoryCreator.createBuilder(Departments.class);
+			entryList = fact.createListFromResults(r);
+			DatabaseAccess.getInstance().closeConnection();
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return entryList;
 	}
 
 }

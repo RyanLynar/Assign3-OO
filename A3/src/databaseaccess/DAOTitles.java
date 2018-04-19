@@ -102,8 +102,9 @@ public class DAOTitles implements DAO<Titles> {
 		ArrayList<Titles> entryList = new ArrayList<>();
 		try {
 			PreparedStatement s = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("SELECT * FROM " + DAOTitles.tName + " WHERE " + DAOTitles.COLUMNS[0] + "=?;");
+					.prepareStatement("SELECT * FROM " + DAOTitles.tName + " WHERE " + DAOTitles.COLUMNS[0] + " = ?;");
 			s.setInt(1, id);
+			System.out.println("Titles "+s.toString());
 			ResultSet r = s.executeQuery();
 			TitlesFactory fact = (TitlesFactory) TransferFactoryCreator.createBuilder(Titles.class);
 			entryList = fact.createListFromResults(r);
