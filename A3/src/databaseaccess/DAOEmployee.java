@@ -70,9 +70,9 @@ public class DAOEmployee implements DAO<Employee> {
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
-
 			s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"DELETE FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
+			s.setInt(1, itemToRemove.getEmpNumber());
 
 			if (s != null) {
 				result = s.executeUpdate() >0;
