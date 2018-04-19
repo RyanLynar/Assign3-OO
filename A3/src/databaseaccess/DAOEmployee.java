@@ -53,7 +53,6 @@ public class DAOEmployee implements DAO<Employee> {
 			s.setDate(6, itemToAdd.getEmpHDate());
 			res.close();
 
-			System.out.println(s.toString());
 			if (s != null) {
 				result = s.executeUpdate() == 1;
 				DatabaseAccess.getInstance().closeConnection();
@@ -76,8 +75,9 @@ public class DAOEmployee implements DAO<Employee> {
 					"DELETE FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
 
 			if (s != null) {
+				result = s.executeUpdate() >0;
 				DatabaseAccess.getInstance().closeConnection();
-				return s.executeUpdate() > 0;
+				return result;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -121,7 +121,7 @@ public class DAOEmployee implements DAO<Employee> {
 		try {
 			ResultSet r = null;
 			if (numRows == -1) {
-				r = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT * FROM " + tName + ";")
+				r = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT * FROM " + DAO.tName + ";")
 						.executeQuery();
 			} else {
 				r = DatabaseAccess.getInstance().getConnection()
@@ -144,7 +144,7 @@ public class DAOEmployee implements DAO<Employee> {
 		try {
 			ResultSet r = null;
 			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
-					"SELECT * FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?");
+					"SELECT * FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
 			r = s.executeQuery();
 			if (r != null) {
 				EmployeeFactory fact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);

@@ -4,14 +4,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Map;
 
+import builders.SalariesBuilder;
 import transferobj.Salaries;
 
 public class SalariesFactory extends AbstractFactory<Salaries> {
-
+	SalariesBuilder builder;
+	public SalariesFactory() {
+		builder = new SalariesBuilder();
+	}
 	@Override
 	public Salaries createFromResults(ResultSet rs) {
-		// TODO Auto-generated method stub
-		return null;
+		builder.build(rs);
+		return builder.returnList().get(0);
 	}
 
 	@Override
@@ -22,8 +26,8 @@ public class SalariesFactory extends AbstractFactory<Salaries> {
 
 	@Override
 	public ArrayList<Salaries> createListFromResults(ResultSet r) {
-		// TODO Auto-generated method stub
-		return null;
+		builder.build(r);
+		return builder.returnList();
 	}
 
 }

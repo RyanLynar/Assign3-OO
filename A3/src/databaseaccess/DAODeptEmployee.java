@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.eclipse.jdt.annotation.Nullable;
-
 import factories.DeptEmployeeFactory;
 import factories.TransferFactoryCreator;
 import transferobj.DeptEmployee;
