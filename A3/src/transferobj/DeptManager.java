@@ -7,8 +7,6 @@ public class DeptManager implements TransferObject<DeptManager>{
 	private String deptNumber;
 	private Date fromDate, toDate;
 	
-	
-
 	public int getEmployeeNumber() {
 		return employeeNumber;
 	}
@@ -43,14 +41,12 @@ public class DeptManager implements TransferObject<DeptManager>{
 
 	@Override
 	public String[] getValues() {
-		// TODO Auto-generated method stub
 		return new String[] {""+ getEmployeeNumber(), getDeptNumber(), getFromDate().toString(), getToDate().toString()};
 	}
 
 	@Override
 	public void printAll() {
 		System.out.println(getEmployeeNumber()+" "+getDeptNumber()+" "+getFromDate().toString()+" "+getToDate().toString());
-		
 	}
 
 }
