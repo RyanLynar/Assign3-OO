@@ -83,7 +83,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
 			result = fact.createListFromResults(r);
 		} catch (SQLException e) {
-
+			System.out.println(e.getMessage());
 		}
 		return result;
 	}

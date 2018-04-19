@@ -40,8 +40,9 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 	public void build(ResultSet r) {
 		eList.clear();
 		try {
-			r.first();
+			System.out.println("at First " + r.first());
 			while (!r.isAfterLast()) {
+				System.out.println("At " + r.getRow());
 				DeptEmployee entry = new DeptEmployee();
 				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
 					if (r.getMetaData().getColumnType(i + 1) == Types.VARCHAR) {
@@ -57,7 +58,10 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 							setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
 						}
 					}
+					
 				}
+			eList.add(entry);
+			r.next();
 			}
 		} catch (
 
@@ -84,5 +88,13 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 		entry.settDate(Date.valueOf(input[3]));
 		
 	}
-
+	public static void main(String[] args) {
+		DAODeptEmployee dao = new DAODeptEmployee();
+		ArrayList<DeptEmployee> list= new ArrayList<>();
+		list = dao.createList(1000);
+		for(int i = 0; i < 1000; i++) {
+			System.out.println(list.get(i).getValues());
+		}
+	}
 }
+
