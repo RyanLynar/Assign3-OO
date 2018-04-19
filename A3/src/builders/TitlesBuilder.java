@@ -1,22 +1,76 @@
 package builders;
 
+import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
+import databaseaccess.DAOTitles;
 import transferobj.Titles;
 
 public class TitlesBuilder implements AbstractBuilder<Titles> {
+	private ArrayList<Titles> eList;
+
+	public TitlesBuilder() {
+		eList = new ArrayList<>();
+	}
+
+	public void setString(Titles newEntry, String data, String cName) {
+		if (cName.equals("title")) {
+			newEntry.setTitle(data);
+		}
+
+	}
+
+	public void setInt(Titles newEntry, int data, String cName) {
+		if (cName.equals("emp_no")) {
+			newEntry.setEmpNo(data);
+		}
+	}
+
+	public void setDate(Titles newEntry, Date data, String cName) {
+		if (cName.equals("from_date'")) {
+			newEntry.setfDate(data);
+		} else if (cName.equals("start_date")) {
+			newEntry.settDate(data);
+		}
+	}
 
 	@Override
 	public void build(ResultSet r) {
-		// TODO Auto-generated method stub
-		
+		eList.clear();
+		try {
+			r.first();
+			while (!r.isAfterLast()) {
+				Titles entry = new Titles();
+				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
+					if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
+						if (r.getMetaData().getColumnType(i + 1) == Types.VARCHAR) {
+							setString(entry, r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
+						}
+					} else if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
+						if (r.getMetaData().getColumnType(i + 1) == Types.INTEGER) {
+							setInt(entry, r.getInt(i + 1), r.getMetaData().getColumnName(i + 1));
+						} else if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
+							if (r.getMetaData().getColumnType(i + 1) == Types.DATE) {
+								setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
+							}
+						}
+					}
+				}
+				eList.add(entry);
+			}
+			r.close();
+		} catch (SQLException e) {
+			System.out.println(e.toString());
+		}
+
 	}
 
 	@Override
 	public ArrayList<Titles> returnList() {
-		// TODO Auto-generated method stub
-		return null;
+		return eList;
 	}
 
 }
