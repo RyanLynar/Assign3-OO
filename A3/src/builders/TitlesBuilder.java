@@ -73,4 +73,15 @@ public class TitlesBuilder implements AbstractBuilder<Titles> {
 		return eList;
 	}
 
+	@Override
+	public void build(String[] input) {
+		eList.clear();
+		Titles item = new Titles();
+		item.setEmpNo(Integer.parseInt(input[0]));
+		item.setTitle(input[1]);
+		item.setfDate(Date.valueOf(input[2]));
+		item.settDate(Date.valueOf(input[3]));
+		eList.add(item);
+	}
+
 }

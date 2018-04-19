@@ -66,4 +66,15 @@ public class DeptManagerBuilder implements AbstractBuilder<DeptManager>{
 		return eList;
 	}
 
+	@Override
+	public void build(String[] input) {
+		eList.clear();
+		DeptManager entry = new DeptManager();
+		entry.setEmployeeNumber(Integer.parseInt(input[0]));
+		entry.setDeptNumber(input[1]);
+		entry.setFromDate(Date.valueOf(input[2]));
+		entry.setFromDate(Date.valueOf(input[3]));
+		eList.add(entry);
+	}
+
 }

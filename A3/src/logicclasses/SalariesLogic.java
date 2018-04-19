@@ -3,27 +3,34 @@ package logicclasses;
 import java.util.ArrayList;
 
 import databaseaccess.DAOSalaries;
+import factories.SalariesFactory;
+import factories.TransferFactoryCreator;
 import transferobj.Salaries;
 
 public class SalariesLogic implements Logic<Salaries> {
 	private DAOSalaries daoSal;
+	private SalariesFactory sFact;
 
 	public SalariesLogic() {
 		daoSal  = new DAOSalaries();
+		sFact = (SalariesFactory) TransferFactoryCreator.createBuilder(Salaries.class);
 	}
 	@Override
-	public boolean add(Salaries itemToAdd) {
-		return daoSal.addItem(itemToAdd);
-	}
-
-	@Override
-	public boolean remove(Salaries itemToRemove) {
-		return daoSal.removeItem(itemToRemove);
+	public boolean add(String[] itemToAdd) {
+		Salaries item = sFact.createFromInput(itemToAdd);
+		return daoSal.addItem(item);
 	}
 
 	@Override
-	public boolean modify(Salaries itemToModify) {
-		return daoSal.modifyItem(itemToModify);
+	public boolean remove(String[] itemToRemove) {
+		Salaries item = sFact.createFromInput(itemToRemove);
+		return daoSal.removeItem(item);
+	}
+
+	@Override
+	public boolean modify(String[]  itemToModify) {
+		Salaries item = sFact.createFromInput(itemToModify);
+		return daoSal.modifyItem(item);
 	}
 
 	@Override

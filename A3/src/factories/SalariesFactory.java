@@ -19,9 +19,9 @@ public class SalariesFactory extends AbstractFactory<Salaries> {
 	}
 
 	@Override
-	public Salaries createFromMap(Map<String, String[]> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public Salaries createFromInput(String[] input) {
+		builder.build(input);
+		return builder.returnList().get(0);
 	}
 
 	@Override

@@ -21,9 +21,9 @@ public class DeptEmployeeFactory extends AbstractFactory<DeptEmployee> {
 	}
 
 	@Override
-	public DeptEmployee createFromMap(Map<String, String[]> map) {
-		//Still need to figure out implementation
-		return null;
+	public DeptEmployee createFromInput(String[] input) {
+		deBuilder.build(input);
+		return deBuilder.returnList().get(0);
 	}
 
 	@Override

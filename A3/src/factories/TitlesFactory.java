@@ -17,9 +17,9 @@ public class TitlesFactory extends AbstractFactory<Titles>{
 	}
 
 	@Override
-	public Titles createFromMap(Map<String, String[]> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public Titles createFromInput(String[] item) {
+		builder.build(item);
+		return builder.returnList().get(0);
 	}
 
 	@Override

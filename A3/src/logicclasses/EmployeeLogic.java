@@ -3,12 +3,16 @@ package logicclasses;
 import java.util.ArrayList;
 
 import databaseaccess.DAOEmployee;
+import factories.EmployeeFactory;
+import factories.TransferFactoryCreator;
 import transferobj.Employee;
 
 public class EmployeeLogic implements Logic<Employee> {
 	private DAOEmployee daoEmp = null;
+	private EmployeeFactory eFact;
 	public EmployeeLogic() {
 		daoEmp = new DAOEmployee();
+		eFact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
 	}
 	@Override
 	public ArrayList<Employee> getObjects(int numRows) {
@@ -21,18 +25,21 @@ public class EmployeeLogic implements Logic<Employee> {
 	}
 
 	@Override
-	public boolean add(Employee toAdd) {
-		return daoEmp.addItem(toAdd);
+	public boolean add(String[] toAdd) {
+		Employee item = eFact.createFromInput(toAdd);
+		return daoEmp.addItem(item);
 	}
 
 	@Override
-	public boolean remove(Employee toRemove) {
-		return daoEmp.removeItem(toRemove);
+	public boolean remove(String[] toRemove) {
+		Employee item = eFact.createFromInput(toRemove);
+		return daoEmp.removeItem(item);
 	}
 
 	@Override
-	public boolean modify(Employee toModify) {
-		return daoEmp.modifyItem(toModify);
+	public boolean modify(String[] toModify) {
+		Employee item = eFact.createFromInput(toModify);
+		return daoEmp.modifyItem(item);
 	}
 
 

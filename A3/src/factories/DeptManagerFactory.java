@@ -20,9 +20,9 @@ public class DeptManagerFactory extends AbstractFactory<DeptManager>{
 	}
 
 	@Override
-	public DeptManager createFromMap(Map<String, String[]> map) {
-		DeptManager result = new DeptManager();
-		return null;
+	public DeptManager createFromInput(String[] input) {
+		builder.build(input);
+		return builder.returnList().get(0);
 	}
 
 	@Override

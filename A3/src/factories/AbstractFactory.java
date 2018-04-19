@@ -9,7 +9,7 @@ public abstract class AbstractFactory<T> implements Factory<T>{
 	
 	public abstract T createFromResults(ResultSet rs);
 
-	public abstract T createFromMap(Map<String, String[]> map);
+	public abstract T createFromInput(String[] input);
 
 	public abstract ArrayList<T> createListFromResults(ResultSet r);
 	

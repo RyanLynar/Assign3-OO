@@ -49,4 +49,13 @@ public class DepartmentsBuilder implements AbstractBuilder<Departments>{
 		return eList;
 	}
 
+	@Override
+	public void build(String[] input) {
+		eList.clear();
+		Departments entry = new Departments();
+		entry.setDeptNumber(input[0]);
+		entry.setDeptName(input[1]);
+		eList.add(entry);
+	}
+
 }

@@ -22,12 +22,9 @@ public class DepartmentsFactory extends AbstractFactory<Departments>{
 	}
 
 	@Override
-	public Departments createFromMap(Map<String, String[]> map) {
-		Departments result = new Departments();
-		for (String item : map.get("departments")) {
-
-		}
-		return result;
+	public Departments createFromInput(String[] input) {
+		builder.build(input);
+		return builder.returnList().get(0);
 	}
 
 	@Override

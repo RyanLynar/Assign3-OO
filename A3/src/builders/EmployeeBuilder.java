@@ -86,4 +86,17 @@ public class EmployeeBuilder implements AbstractBuilder<Employee> {
 		return eList;
 	}
 
+	@Override
+	public void build(String[] input) {
+		eList.clear();
+		Employee entry = new Employee();
+		entry.setEmpNumber(Integer.parseInt(input[0]));
+		entry.setEmpBDate(Date.valueOf(input[1]));
+		entry.setEmpFName(input[2]);
+		entry.setEmpLName(input[3]);
+		entry.setEmpGender(input[4]);
+		entry.setEmpHDate(Date.valueOf(input[5]));
+		eList.add(entry);
+	}
+
 }

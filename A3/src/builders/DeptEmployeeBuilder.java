@@ -74,4 +74,15 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 		return eList;
 	}
 
+	@Override
+	public void build(String[] input) {
+		eList.clear();
+		DeptEmployee entry = new DeptEmployee();
+		entry.setEmpID(Integer.parseInt(input[0]));
+		entry.setDeptID(input[1]);
+		entry.setfDate(Date.valueOf(input[2]));
+		entry.settDate(Date.valueOf(input[3]));
+		
+	}
+
 }

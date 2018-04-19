@@ -2,28 +2,36 @@ package logicclasses;
 
 import java.util.ArrayList;
 import databaseaccess.DAODepartments;
+import factories.DepartmentsFactory;
+import factories.TransferFactoryCreator;
 import transferobj.Departments;
 
 public class DepartmentsLogic implements Logic<Departments>{
 	private DAODepartments daoDept;
-	
+	private DepartmentsFactory dFact;
 	public DepartmentsLogic() {
 		daoDept = new DAODepartments();
+		dFact = (DepartmentsFactory) TransferFactoryCreator.createBuilder(Departments.class);
 	}
 
 	@Override
-	public boolean add(Departments itemToAdd) {
-		return daoDept.addItem(itemToAdd);
+	public boolean add(String[] itemToAdd) {
+		Departments item = dFact.createFromInput(itemToAdd);
+		return daoDept.addItem(item);
 	}
 
 	@Override
-	public boolean remove(Departments deptToRemove) {
-		return daoDept.removeItem(deptToRemove);
+	public boolean remove(String[] deptToRemove) {
+		Departments item = dFact.createFromInput(deptToRemove);
+		
+		return daoDept.removeItem(item);
 	}
 
 	@Override
-	public boolean modify(Departments itemToModify) {
-		return daoDept.modifyItem(itemToModify);
+	public boolean modify(String[] itemToModify) {
+
+		Departments item = dFact.createFromInput(itemToModify);
+		return daoDept.modifyItem(item);
 	}
 
 	@Override

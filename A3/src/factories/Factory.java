@@ -7,7 +7,7 @@ import java.util.Map;
 public interface Factory<T> {
 	public T createFromResults(ResultSet rs);
 
-	public T createFromMap(Map<String, String[]> map);
+	public T createFromInput(String[] input);
 
 	public ArrayList<T> createListFromResults(ResultSet r);
 
