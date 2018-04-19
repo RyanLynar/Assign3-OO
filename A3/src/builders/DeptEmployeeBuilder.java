@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package builders;
 
 import java.sql.Date;
@@ -74,7 +74,6 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 	}
 
 }
-=======
 package builders;
 
 import java.sql.Date;
@@ -149,4 +148,3 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 	}
 
 }
->>>>>>> BetCuh
