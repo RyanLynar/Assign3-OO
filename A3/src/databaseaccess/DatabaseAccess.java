@@ -9,9 +9,9 @@ import com.mysql.jdbc.Driver;
 
 public class DatabaseAccess {
 	public static String server = "mysql";
-	public static String port = "3307";
+	public static String port = "3306";
 	public static String user = "root";
-	public static String pass = "Algonquin97";
+	public static String pass = "Ec!66440";
 	public static String dbName = "employees";
 	private static DatabaseAccess access;
 
@@ -58,17 +58,5 @@ public class DatabaseAccess {
 			System.out.println(e.getMessage());
 		}
 		return null;
-	}
-
-	public void shutDown() {
-		try {
-			con.close();
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	public static void main(String args) {
-		DatabaseAccess.access.getConnection();
 	}
 }

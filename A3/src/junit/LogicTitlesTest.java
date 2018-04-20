@@ -2,12 +2,16 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class LogicTitlesTest {
+import logicclasses.TitlesLogic;
 
+public class LogicTitlesTest {
+	TitlesLogic t = new TitlesLogic();
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -18,32 +22,34 @@ public class LogicTitlesTest {
 
 	@Test
 	public void testTitlesLogic() {
-		fail("Not yet implemented");
+		assertNotNull(t = new TitlesLogic());
 	}
 
 	@Test
 	public void testAdd() {
-		fail("Not yet implemented");
+		t.add(new String[] {"1000","Test","1992-03-24","2017-03-24"});
 	}
 
 	@Test
 	public void testRemove() {
-		fail("Not yet implemented");
+		assertTrue(t.remove(t.getByID(10001).get(0).getValues()));
 	}
 
 	@Test
 	public void testModify() {
-		fail("Not yet implemented");
+		t.getByID(10002).get(0).settDate(Date.valueOf("1992-03-24"));
+		assertTrue(t.modify(t.getByID(10002).get(0).getValues()));
+		
 	}
 
 	@Test
 	public void testGetByID() {
-		fail("Not yet implemented");
+		assertTrue(!t.getByID(10002).isEmpty());
 	}
 
 	@Test
 	public void testGetObjects() {
-		fail("Not yet implemented");
+		assertTrue(!t.getObjects(50).isEmpty());
 	}
 
 }
