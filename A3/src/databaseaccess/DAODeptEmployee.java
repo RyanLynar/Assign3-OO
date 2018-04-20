@@ -7,8 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import factories.DeptEmployeeFactory;
+import factories.EmployeeFactory;
+import factories.DepartmentsFactory;
 import factories.TransferFactoryCreator;
+import transferobj.Departments;
 import transferobj.DeptEmployee;
+import transferobj.Employee;
 
 public class DAODeptEmployee implements DAO<DeptEmployee> {
 	public static String tName = "dept_emp";
@@ -18,18 +22,41 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 	public boolean addItem(DeptEmployee item) {
 		DAOEmployee emp = new DAOEmployee();
 		DAODepartments dep = new DAODepartments();
-
+		ArrayList<Employee> eList = emp.getItemsByID(item.getEmpID());
+		ArrayList<Departments> dList = dep.getItemsByID(item.getDeptID());
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("INSERT INTO " + DAODeptEmployee.tName + " VALUES(?,?,?,?);");
-			PreparedStatement eKey = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("SELECT MAX(" + DAOEmployee.COLUMNS[0] + ") FROM " + DAOEmployee.tName + ";");
-			PreparedStatement dKey = DatabaseAccess.getInstance().getConnection().prepareStatement(
-					"SELECT MAX(" + DAODepartments.COLUMNS[0] + ") FROM " + DAODepartments.tName + ";");
-			s.setInt(1, item.getEmpID());
-			s.setString(2, item.getDeptID());
+			if (eList.isEmpty()) {
+				PreparedStatement eKey = DatabaseAccess.getInstance().getConnection()
+						.prepareStatement("SELECT MAX(" + DAOEmployee.COLUMNS[0] + ") FROM " + DAOEmployee.tName + ";");
+				ResultSet r = eKey.executeQuery();
+				r.first();
+
+				EmployeeFactory eFact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
+				emp.addItem(eFact.createFromInput(new String[] { "" + (r.getInt(1) + 1), "1992-03-24", "PLACEHOLDER",
+						"PLACEHOLDER", "M", "1992-03-24" }));
+				s.setInt(1, r.getInt(1) + 1);
+			} else {
+				s.setInt(1, eList.get(0).getEmpNumber());
+			}
+			if (dList.isEmpty()) {
+				PreparedStatement dKey = DatabaseAccess.getInstance().getConnection().prepareStatement(
+						"SELECT MAX(" + DAODepartments.COLUMNS[0] + ") FROM " + DAODepartments.tName + ";");
+				ResultSet r = dKey.executeQuery();
+				r.first();
+				
+				DepartmentsFactory dFact = (DepartmentsFactory) TransferFactoryCreator.createBuilder(Departments.class);
+				String sPlaceHolder = r.getString(1);
+				String[] temp = sPlaceHolder.split("d");
+				int placeHolder = Integer.parseInt(temp[1]);
+				placeHolder++;
+				s.setString(1, String.format("d%03d", placeHolder));
+			} else {
+				s.setString(2, item.getDeptID());
+			}
 			s.setDate(3, item.getfDate());
 			s.setDate(4, item.gettDate());
 			result = s.executeUpdate() == 1;
@@ -68,9 +95,9 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("UPDATE " + DAODeptEmployee.tName + " SET " + DAODeptEmployee.COLUMNS[2] + " = ?, "
-							+ DAODeptEmployee.COLUMNS[3] + " = ?  WHERE " + DAODeptEmployee.COLUMNS[0] + " = ? AND "
-							+ DAODeptEmployee.COLUMNS[1] + " = ?;");
+					.prepareStatement("UPDATE " + DAODeptEmployee.tName + " SET " + DAODeptEmployee.COLUMNS[2]
+							+ " = ?, " + DAODeptEmployee.COLUMNS[3] + " = ?  WHERE " + DAODeptEmployee.COLUMNS[0]
+							+ " = ? AND " + DAODeptEmployee.COLUMNS[1] + " = ?;");
 			s.setDate(1, item.getfDate());
 			s.setDate(2, item.gettDate());
 			s.setInt(3, item.getEmpID());
@@ -132,13 +159,6 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 	}
 
 	public static void main(String[] args) {
-		DAODeptEmployee emp = new DAODeptEmployee();
-		ArrayList<DeptEmployee> eList = emp.getItemsByID(10001);
-		eList.get(0).setfDate(Date.valueOf("1992-03-24"));
-		System.out.println(emp.modifyItem(eList.get(0)));
-		eList = emp.getItemsByID("d005");
-		eList.get(0).settDate(Date.valueOf("1997-04-27"));
-		System.out.println(emp.modifyItem(eList.get(0)));
-	}
+			}
 
 }
