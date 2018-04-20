@@ -141,5 +141,13 @@ public class DAODepartments implements DAO<Departments> {
 		}
 		return entryList;
 	}
+<<<<<<< HEAD
 
 }
+=======
+	public static void main(String[] args) {
+		DAODepartments d= new DAODepartments();
+		System.out.println(d.removeItem(d.getItemsByID("d008").get(0)));
+	}
+}
+>>>>>>> master
