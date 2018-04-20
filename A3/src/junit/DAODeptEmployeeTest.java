@@ -26,7 +26,7 @@ public class DAODeptEmployeeTest {
 		dao = new DAODeptEmployee();
 		
 		obj = new DeptEmployee();
-		obj.setDeptID("D222");
+		obj.setDeptID("d005");
 		obj.setEmpID(10001);
 		obj.setfDate(date);
 		obj.settDate(date);
@@ -60,4 +60,4 @@ public class DAODeptEmployeeTest {
 		fail("Not yet implemented");
 	}
 
-}
+  }

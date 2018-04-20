@@ -115,16 +115,4 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		}
 		return result;
 	}
-
-<<<<<<< HEAD
 }
-=======
-	public static void main(String[] args) {
-		DAODeptEmployee emp = new DAODeptEmployee();
-		for (int i = 0; i < DAODeptEmployee.COLUMNS.length; i++) {
-			System.out.println(emp.getItemsByID(10010).get(0).getValues()[i]);
-		}
-	}
-
-}
->>>>>>> master

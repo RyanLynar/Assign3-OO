@@ -162,14 +162,5 @@ public class DAOEmployee implements DAO<Employee> {
 		}
 		DatabaseAccess.getInstance().closeConnection();
 		return result;
-
-	}
-<<<<<<< HEAD
-}
-=======
-	public static void main(String[] args) {
-		DAOEmployee emp = new DAOEmployee();
-		EmployeeFactory eFact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
 	}
 }
->>>>>>> master
