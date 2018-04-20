@@ -12,13 +12,11 @@ import factories.EmployeeFactory;
 import factories.TitlesFactory;
 import factories.TransferFactoryCreator;
 import transferobj.Departments;
-import transferobj.DeptEmployee;
-import transferobj.DeptManager;
 import transferobj.Employee;
 import transferobj.Titles;
 
 public class DAODepartments implements DAO<Departments> {
-	public static String tName = "departments";
+	public static String TABLE_NAME = "departments";
 	public static String[] COLUMNS = new String[] { "dept_no", "dept_name" };
 
 	@Override
@@ -28,9 +26,9 @@ public class DAODepartments implements DAO<Departments> {
 
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("INSERT INTO " + DAODepartments.tName + " VALUES(?,?);");
+					.prepareStatement("INSERT INTO " + DAODepartments.TABLE_NAME + " VALUES(?,?);");
 			PreparedStatement maxKey = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("SELECT " + DAODepartments.COLUMNS[0] + " FROM " + DAODepartments.tName
+					.prepareStatement("SELECT " + DAODepartments.COLUMNS[0] + " FROM " + DAODepartments.TABLE_NAME
 							+ " ORDER BY " + DAODepartments.COLUMNS[0] + " DESC;");
 			ResultSet res = maxKey.executeQuery();
 			res.first();
@@ -59,31 +57,13 @@ public class DAODepartments implements DAO<Departments> {
 	public boolean removeItem(Departments item) {
 		boolean result = false;
 		PreparedStatement s = null;
-		DAODeptEmployee dEmp = new DAODeptEmployee();
-		DAODeptManager dMan = new DAODeptManager();
-
-		try {
-			ArrayList<DeptEmployee> deList = new ArrayList<>();
-			ArrayList<DeptManager> dmList = new ArrayList<>();
-			deList = dEmp.getItemsByID(item.getDeptNumber());
-			dmList = dMan.getItemsByID(item.getDeptNumber());
-			if(!deList.isEmpty()) {
-				dEmp.removeItem(deList.get(0));
-			}
-			if(!dmList.isEmpty()) {
-				dMan.removeItem(dmList.get(0));
-			}
-		} catch (IllegalArgumentException e) {
-			return false;
-		}
 		try {
 			s = DatabaseAccess.getInstance().getConnection().prepareStatement(
-					"DELETE FROM " + DAODepartments.tName + " WHERE " + DAODepartments.COLUMNS[0] + " = ?;");
+					"DELETE FROM " + DAODepartments.TABLE_NAME + " WHERE " + DAODepartments.COLUMNS[0] + " = ?;");
 			s.setString(1, item.getDeptNumber());
 			if (s != null) {
-				result =  s.executeUpdate() > 0;
 				DatabaseAccess.getInstance().closeConnection();
-				return result;
+				return s.executeUpdate() > 0;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -97,7 +77,7 @@ public class DAODepartments implements DAO<Departments> {
 	public boolean modifyItem(Departments item) {
 		PreparedStatement s = null;
 		try {
-			s = DatabaseAccess.getInstance().getConnection().prepareStatement("UPDATE " + DAODepartments.tName
+			s = DatabaseAccess.getInstance().getConnection().prepareStatement("UPDATE " + DAODepartments.TABLE_NAME
 					+ " SET " + DAODepartments.COLUMNS[1] + "=?" + " WHERE " + DAODepartments.COLUMNS[0] + " = ?;");
 
 			for (int i = 1; i < DAOEmployee.COLUMNS.length; i++) {
@@ -122,11 +102,11 @@ public class DAODepartments implements DAO<Departments> {
 		try {
 			ResultSet r = null;
 			if (numRows == -1) {
-				r = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT * FROM " + DAODepartments.tName + ";")
+				r = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT * FROM " + tName + ";")
 						.executeQuery();
 			} else {
 				r = DatabaseAccess.getInstance().getConnection()
-						.prepareStatement("SELECT * FROM " + DAODepartments.tName + ";").executeQuery();
+						.prepareStatement("SELECT * FROM " + DAODepartments.TABLE_NAME + ";").executeQuery();
 			}
 
 			if (r != null) {
@@ -161,8 +141,20 @@ public class DAODepartments implements DAO<Departments> {
 		}
 		return entryList;
 	}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+}
+=======
+>>>>>>> adamUseThisOne
 	public static void main(String[] args) {
 		DAODepartments d= new DAODepartments();
 		System.out.println(d.removeItem(d.getItemsByID("d008").get(0)));
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master
+>>>>>>> adamUseThisOne
