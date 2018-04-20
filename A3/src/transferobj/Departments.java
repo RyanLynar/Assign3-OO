@@ -22,12 +22,12 @@ public class Departments implements TransferObject<Departments>{
 
 	@Override
 	public String[] getValues() {
-		return new String[] {getDeptName(), getDeptNumber()};
+		return new String[] {getDeptNumber(), getDeptName()};
 	}
 
 	@Override
 	public void printAll() {
-		System.out.println(deptName +", "+deptNumber);
+		System.out.println(getDeptNumber() +", "+getDeptName());
 		
 	}
 
