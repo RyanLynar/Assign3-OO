@@ -35,7 +35,7 @@ public class TitlesLogic implements Logic<Titles> {
 	}
 
 	@Override
-	public ArrayList<Titles> getByID(int id) {
+	public <U> ArrayList<Titles> getByID(U id) {
 		return daoTitle.getItemsByID(id);
 	}
 

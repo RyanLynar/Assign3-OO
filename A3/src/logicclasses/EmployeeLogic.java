@@ -30,7 +30,7 @@ public class EmployeeLogic implements Logic<Employee> {
 	}
 
 	@Override
-	public ArrayList<Employee> getByID(int id) {
+	public <U> ArrayList<Employee> getByID(U id) {
 		return daoEmp.getItemsByID(id);
 	}
 

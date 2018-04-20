@@ -79,7 +79,7 @@ public class DAOSalaries implements DAO<Salaries> {
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("UPDATE " + DAOSalaries.tName + " SET " + DAOSalaries.COLUMNS[1] + " = ?, "
-							+ DAOSalaries.COLUMNS[3] + " = ?, WHERE " + DAOSalaries.COLUMNS[0] + " = ? AND "
+							+ DAOSalaries.COLUMNS[3] + " = ? WHERE " + DAOSalaries.COLUMNS[0] + " = ? AND "
 							+ DAOSalaries.COLUMNS[2] + " = ? ;");
 			s.setInt(1, item.getSalary());
 			s.setDate(4, item.getfDate());
@@ -146,11 +146,5 @@ public class DAOSalaries implements DAO<Salaries> {
 		return result;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(Date.valueOf("1992-03-24").toString());
-		DAOSalaries test = new DAOSalaries();
-		ArrayList<Salaries> tList = test.getItemsByID(10010);
-		tList.get(0).setSalary(2000);
-		System.out.println(test.modifyItem(tList.get(0)));
-	}
+	
 }

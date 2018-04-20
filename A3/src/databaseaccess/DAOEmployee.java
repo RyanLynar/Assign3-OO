@@ -166,5 +166,15 @@ public class DAOEmployee implements DAO<Employee> {
 		}
 		DatabaseAccess.getInstance().closeConnection();
 		return result;
+<<<<<<< HEAD
+=======
+
+	}
+
+	public static void main(String[] args) {
+		DAOEmployee demp = new DAOEmployee();
+		EmployeeFactory f = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
+		System.out.println(demp.addItem(f.createFromInput(new String[] {"-1","1999-12-31","Ryan","Lyar", "M","1992-03-24"})));
+>>>>>>> master
 	}
 }

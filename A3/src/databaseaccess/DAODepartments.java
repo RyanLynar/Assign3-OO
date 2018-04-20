@@ -75,25 +75,25 @@ public class DAODepartments implements DAO<Departments> {
 
 	@Override
 	public boolean modifyItem(Departments item) {
+		boolean result = false;
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection().prepareStatement("UPDATE " + DAODepartments.TABLE_NAME
 					+ " SET " + DAODepartments.COLUMNS[1] + "=?" + " WHERE " + DAODepartments.COLUMNS[0] + " = ?;");
 
-			for (int i = 1; i < DAOEmployee.COLUMNS.length; i++) {
-				s.setString(i, item.getValues()[i]);
-			}
+			s.setString(1, item.getDeptName());
 			s.setString(2, item.getDeptNumber());
 
 			if (s != null) {
+				result =  0 < s.executeUpdate();
 				DatabaseAccess.getInstance().closeConnection();
-				return 0 < s.executeUpdate();
+				return result;
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		DatabaseAccess.getInstance().closeConnection();
-		return false;
+		return result;
 	}
 
 	@Override
@@ -150,7 +150,9 @@ public class DAODepartments implements DAO<Departments> {
 >>>>>>> adamUseThisOne
 	public static void main(String[] args) {
 		DAODepartments d= new DAODepartments();
-		System.out.println(d.removeItem(d.getItemsByID("d008").get(0)));
+		ArrayList<Departments> testList = d.getItemsByID("d001");
+		testList.get(0).setDeptName("farts");
+		System.out.println(d.modifyItem(testList.get(0)));
 	}
 <<<<<<< HEAD
 }
