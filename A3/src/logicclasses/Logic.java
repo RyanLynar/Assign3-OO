@@ -32,14 +32,15 @@ public interface Logic<T> {
 	public abstract boolean modify(String[] itemToModify);
 	/**
 	 * 
-	 * @param id
+	 * @param <U>
+	 * @param id returns an ArrayList of items found with the given id
 	 * @return
 	 */
-	public ArrayList<T> getByID(int id);
+	public <U> ArrayList<T> getByID(U id);
 	/**
 	 * 
-	 * @param rowNumber
-	 * @return
+	 * @param rowNumber would be used to limit number of rows accessed
+	 * @return an arraylist of the items in the database
 	 */
 	public ArrayList<T> getObjects(int rowNumber);
 

@@ -8,11 +8,11 @@ import java.util.Properties;
 import com.mysql.jdbc.Driver;
 
 public class DatabaseAccess {
-	private static String server = "mysql";
-	private static String port = "3306";
-	private static String user = "root";
-	private static String pass = "admin";
-	private static String dbName = "employees";
+	public static String server = "mysql";
+	public static String port = "3307";
+	public static String user = "root";
+	public static String pass = "Algonquin97";
+	public static String dbName = "employees";
 	private static DatabaseAccess access;
 
 	public static DatabaseAccess getInstance() {

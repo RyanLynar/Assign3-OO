@@ -27,17 +27,6 @@ public class DepartmentsLogic implements Logic<Departments> {
 
 	@Override
 	public boolean remove(String[] deptToRemove) {
-		DAODeptEmployee dEmp = new DAODeptEmployee();
-		DAODeptManager dMan = new DAODeptManager();
-
-		try {
-			ArrayList<DeptEmployee> deList = new ArrayList<>();
-			ArrayList<DeptManager> dmList = new ArrayList<>();
-			deList = dEmp.getItemsByID(deptToRemove[0]);
-			dmList = dMan.getItemsByID(deptToRemove[0]);
-		} catch (IllegalArgumentException e) {
-			return false;
-		}
 		Departments item = dFact.createFromInput(deptToRemove);
 		return daoDept.removeItem(item);
 	}
@@ -50,7 +39,7 @@ public class DepartmentsLogic implements Logic<Departments> {
 	}
 
 	@Override
-	public ArrayList<Departments> getByID(int id) {
+	public <U> ArrayList<Departments> getByID(U id) {
 		return daoDept.getItemsByID(id);
 	}
 

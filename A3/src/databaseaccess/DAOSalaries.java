@@ -33,13 +33,12 @@ public class DAOSalaries implements DAO<Salaries> {
 			if (emp.getItemsByID(new Integer(item.getEmpNo())).size() == 0) {
 				EmployeeFactory empF = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
 				ResultSet res = maxKey.executeQuery();
-				System.out.println("At first " +res.first());
-					emp.addItem(empF
-						.createFromInput(new String[] { "" + (res.getInt(1) +1),"1992-03-24",
-								"Placeholder", "PlaceHolder", "P", "1992-03-24" }));
-					s.setInt(1, res.getInt(1)+1);
-					res.close();
-			}else {
+				System.out.println("At first " + res.first());
+				emp.addItem(empF.createFromInput(new String[] { "" + (res.getInt(1) + 1),
+						Date.valueOf("1992-03-24").toString(), "Placeholder", "PlaceHolder", "M", "1992-03-24" }));
+				s.setInt(1, res.getInt(1) + 1);
+				res.close();
+			} else {
 				s.setInt(1, item.getEmpNo());
 			}
 			if (s != null)
@@ -79,15 +78,17 @@ public class DAOSalaries implements DAO<Salaries> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("UPDATE " + DAOSalaries.tName + " SET " + DAOSalaries.COLUMNS[1] + "=?,"
-							+ DAOSalaries.COLUMNS[2] + "=?," + DAOSalaries.COLUMNS[3] + "=? WHERE "
-							+ DAOSalaries.COLUMNS[0] + " =?;");
+					.prepareStatement("UPDATE " + DAOSalaries.tName + " SET " + DAOSalaries.COLUMNS[1] + " = ?, "
+							+ DAOSalaries.COLUMNS[3] + " = ? WHERE " + DAOSalaries.COLUMNS[0] + " = ? AND "
+							+ DAOSalaries.COLUMNS[2] + " = ? ;");
 			s.setInt(1, item.getSalary());
-			s.setDate(2, item.getfDate());
-			s.setDate(3, item.gettDate());
-			s.setInt(4, item.getEmpNo());
+			s.setDate(4, item.getfDate());
+			s.setDate(2, item.gettDate());
+			s.setInt(3, item.getEmpNo());
+			System.out.println(s.toString());
 			if (s != null) {
-				result = s.executeUpdate() > 0;
+				int test = s.executeUpdate();
+				result = test > 0;
 				DatabaseAccess.getInstance().closeConnection();
 				return result;
 			}
@@ -144,13 +145,6 @@ public class DAOSalaries implements DAO<Salaries> {
 		}
 		return result;
 	}
-	public static void main(String[] args) {
-		DAOSalaries test = new DAOSalaries();
-		Salaries s = new Salaries();
-		s.setEmpNo(666666);
-		s.setSalary(21);
-		s.setfDate(Date.valueOf("1999-09-09"));
-		s.settDate(Date.valueOf("2000-02-02"));
-		System.out.println(test.addItem(s));
-	}
+
+	
 }
