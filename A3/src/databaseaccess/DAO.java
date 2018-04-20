@@ -15,6 +15,6 @@ public abstract interface DAO<T> {
 
 	public abstract ArrayList<T> createList(int numRows);
 
-	public abstract ArrayList<T> getItemsByID(int id);
+	public abstract <U> ArrayList<T> getItemsByID(U id) throws IllegalArgumentException;
 
 }

@@ -47,6 +47,7 @@ public class DAOSalaries implements DAO<Salaries> {
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("DELETE FROM " + DAOSalaries.tName + " WHERE " + DAOSalaries.COLUMNS[0] + " = ?;");
+			s.setInt(1,item.getEmpNo());
 			if (s != null) {
 				result = s.executeUpdate() > 0;
 				DatabaseAccess.getInstance().closeConnection();
@@ -109,12 +110,16 @@ public class DAOSalaries implements DAO<Salaries> {
 	}
 
 	@Override
-	public ArrayList<Salaries> getItemsByID(int id) {
+	public <U> ArrayList<Salaries> getItemsByID(U id) {
 		ArrayList<Salaries> result = new ArrayList<>();
 		try {
 			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"SELECT * FROM " + DAOSalaries.tName + " WHERE " + DAOSalaries.COLUMNS[0] + " = ?;");
-			s.setInt(1, id);
+			if(id instanceof Integer) {
+				s.setInt(1, (int)id);	
+			}else {
+				throw new IllegalArgumentException("Invalid Key Type");
+			}
 			System.out.println("Salary Statement " + s.toString());
 			ResultSet r = s.executeQuery();
 			if(r!=null) {

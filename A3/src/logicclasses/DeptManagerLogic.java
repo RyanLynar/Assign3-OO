@@ -44,4 +44,4 @@ public class DeptManagerLogic implements Logic<DeptManager> {
 		return daoDeptManager.createList(rowNumber);
 	}
 
-	}
+}

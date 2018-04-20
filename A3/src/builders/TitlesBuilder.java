@@ -41,32 +41,29 @@ public class TitlesBuilder implements AbstractBuilder<Titles> {
 	public void build(ResultSet r) {
 		eList.clear();
 		try {
-
-			 r.first();
-				while (!r.isAfterLast()) {
-					Titles entry = new Titles();
-					for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
-						if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
-							if (r.getMetaData().getColumnType(i + 1) == Types.VARCHAR) {
-								setString(entry, r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
-							}
+			if (!r.first()) {
+				return;
+			}
+			while (!r.isAfterLast()) {
+				Titles entry = new Titles();
+				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
+					if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
+						if (r.getMetaData().getColumnType(i + 1) == Types.VARCHAR) {
+							setString(entry, r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
+						}
+					} else if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
+						if (r.getMetaData().getColumnType(i + 1) == Types.INTEGER) {
+							setInt(entry, r.getInt(i + 1), r.getMetaData().getColumnName(i + 1));
 						} else if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
-							if (r.getMetaData().getColumnType(i + 1) == Types.INTEGER) {
-								setInt(entry, r.getInt(i + 1), r.getMetaData().getColumnName(i + 1));
-							} else if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
-								if (r.getMetaData().getColumnType(i + 1) == Types.DATE) {
-									setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
-								}
+							if (r.getMetaData().getColumnType(i + 1) == Types.DATE) {
+								setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
 							}
 						}
 					}
-					eList.add(entry);
-					r.next();
 				}
-
-			
-			System.out.println("After loop");
-			r.close();
+				eList.add(entry);
+				r.next();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

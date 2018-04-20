@@ -2,13 +2,18 @@ package logicclasses;
 
 import java.util.ArrayList;
 import databaseaccess.DAODepartments;
+import databaseaccess.DAODeptEmployee;
+import databaseaccess.DAODeptManager;
 import factories.DepartmentsFactory;
 import factories.TransferFactoryCreator;
 import transferobj.Departments;
+import transferobj.DeptEmployee;
+import transferobj.DeptManager;
 
-public class DepartmentsLogic implements Logic<Departments>{
+public class DepartmentsLogic implements Logic<Departments> {
 	private DAODepartments daoDept;
 	private DepartmentsFactory dFact;
+
 	public DepartmentsLogic() {
 		daoDept = new DAODepartments();
 		dFact = (DepartmentsFactory) TransferFactoryCreator.createBuilder(Departments.class);
@@ -22,6 +27,17 @@ public class DepartmentsLogic implements Logic<Departments>{
 
 	@Override
 	public boolean remove(String[] deptToRemove) {
+		DAODeptEmployee dEmp = new DAODeptEmployee();
+		DAODeptManager dMan = new DAODeptManager();
+
+		try {
+			ArrayList<DeptEmployee> deList = new ArrayList<>();
+			ArrayList<DeptManager> dmList = new ArrayList<>();
+			deList = dEmp.getItemsByID(deptToRemove[0]);
+			dmList = dMan.getItemsByID(deptToRemove[0]);
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
 		Departments item = dFact.createFromInput(deptToRemove);
 		return daoDept.removeItem(item);
 	}
