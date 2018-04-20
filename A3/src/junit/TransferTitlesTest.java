@@ -2,11 +2,18 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+import java.util.Calendar;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import transferobj.Titles;
+
 public class TransferTitlesTest {
+	public Titles title;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -14,56 +21,82 @@ public class TransferTitlesTest {
 
 	@Before
 	public void setUp() throws Exception {
+		title = new Titles();
 	}
 
 	@Test
 	public void testGetEmpNo() {
-		fail("Not yet implemented");
+		title.setEmpNo(10001);
+		assertEquals(10001,title.getEmpNo());
 	}
 
 	@Test
 	public void testSetEmpNo() {
-		fail("Not yet implemented");
+		title.setEmpNo(10001);
+		assertEquals(title.getEmpNo(),10001);
 	}
 
 	@Test
 	public void testGetTitle() {
-		fail("Not yet implemented");
+		title.setTitle("Manager");
+		Assert.assertEquals(title.getTitle(),"Manager" );
 	}
 
 	@Test
 	public void testSetTitle() {
-		fail("Not yet implemented");
+		title.setTitle("Manager");
+		Assert.assertEquals(title.getTitle(),"Manager" );
 	}
 
 	@Test
 	public void testGettDate() {
-		fail("Not yet implemented");
+		Long now = Calendar.getInstance().getTime().getTime();
+        Date date = new Date(now);
+        title.settDate(date);
+        assertTrue(title.gettDate().getTime() == now);
 	}
 
 	@Test
 	public void testSettDate() {
-		fail("Not yet implemented");
+		Long now = Calendar.getInstance().getTime().getTime();
+        Date date = new Date(now);
+        title.settDate(date);
+        assertTrue(title.gettDate().getTime() == now);
 	}
 
 	@Test
 	public void testGetfDate() {
-		fail("Not yet implemented");
+		Long now = Calendar.getInstance().getTime().getTime();
+        Date date = new Date(now);
+        title.setfDate(date);
+        assertTrue(title.getfDate().getTime() == now);
 	}
 
 	@Test
 	public void testSetfDate() {
-		fail("Not yet implemented");
+		Long now = Calendar.getInstance().getTime().getTime();
+        Date date = new Date(now);
+        title.setfDate(date);
+        assertTrue(title.getfDate().getTime() == now);
 	}
 
 	@Test
 	public void testGetValues() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+        Date date = new Date(now);
+        title.setEmpNo(1000);
+        title.setTitle("Manager");
+        title.setfDate(date);
+        title.settDate(date);
+        
+        String[] temp = new String[] {"1000","Manager","2018-04-19","2018-04-19"};
+        
+        assertArrayEquals(title.getValues(), temp);
 	}
 
 	@Test
 	public void testPrintAll() {
-		fail("Not yet implemented");
+		
 	}
 
 }

@@ -2,6 +2,8 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -23,8 +25,8 @@ public class TransferDepartmentTest {
 
 	@Test
 	public void getDeptNumberTest() {
-		department.setDeptNumber("D100");
 		assertTrue(department.getDeptNumber().equals("D100"));
+		department.setDeptNumber("D100");
 	}
 	
 	@Test
@@ -35,7 +37,8 @@ public class TransferDepartmentTest {
 	
 	@Test
 	public void getDeptNameTest() {
-		
+		department.setDeptName("Billy");
+		assertTrue(department.getDeptName().equals("Billy"));
 	}
 	
 	@Test
@@ -46,6 +49,14 @@ public class TransferDepartmentTest {
 	
 	@Test
 	public void getValueTest(){
+		
+        department.setDeptName("Engineering");
+        department.setDeptNumber("5");
+       
+        
+        String[] temp = new String[] {"Engineering","5"};
+        
+        assertArrayEquals(department.getValues(), temp);
 		
 	}
 	
