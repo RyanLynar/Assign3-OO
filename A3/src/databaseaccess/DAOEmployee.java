@@ -138,8 +138,8 @@ public class DAOEmployee implements DAO<Employee> {
 		}
 		DatabaseAccess.getInstance().closeConnection();
 		return entryList;
-
 	}
+	
 	@Override
 	public <U> ArrayList<Employee> getItemsByID(U id) {
 		ArrayList<Employee> result = new ArrayList<>();

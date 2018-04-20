@@ -30,7 +30,6 @@ public class DAODeptEmployeeTest {
 		obj.setEmpID(10001);
 		obj.setfDate(date);
 		obj.settDate(date);
-		
 	}
 
 	@Test
