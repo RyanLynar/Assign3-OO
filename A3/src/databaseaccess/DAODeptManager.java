@@ -56,7 +56,7 @@ public class DAODeptManager implements DAO<DeptManager> {
 				String[] temp = sPlaceHolder.split("d");
 				int placeHolder = Integer.parseInt(temp[1]);
 				placeHolder++;
-				s.setString(1, String.format("d%03d", placeHolder));
+				s.setString(2, String.format("d%03d", placeHolder));
 				r.close();
 			} else {
 				s.setString(2, item.getDeptNumber());

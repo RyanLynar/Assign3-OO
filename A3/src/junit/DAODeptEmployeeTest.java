@@ -34,7 +34,6 @@ public class DAODeptEmployeeTest {
 
 	@Test
 	public void testAddItem() {
-		//Cascading error :/
 		assertTrue(dao.addItem(obj));
 	}
 
@@ -45,17 +44,18 @@ public class DAODeptEmployeeTest {
 
 	@Test
 	public void testModifyItem() {
+		obj = dao.getItemsByID("d005").get(0);
 		assertTrue(dao.modifyItem(obj));
 	}
 
-//	@Test
-//	public void testCreateList() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetItemsByID() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testCreateList() {
+		assertTrue(!dao.createList(20).isEmpty());
+	}
+
+	@Test
+	public void testGetItemsByID() {
+		assertTrue(!dao.getItemsByID("d005").isEmpty());
+	}
 
   }

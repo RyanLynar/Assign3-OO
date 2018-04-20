@@ -98,14 +98,14 @@ public class DAOEmployeeTest {
 		assertTrue(temp);
 	}
 
-//	@Test
-//	public void testCreateList() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetItemsByID() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testCreateList() {
+		assertTrue(!dao.createList(20).isEmpty());
+	}
+
+	@Test
+	public void testGetItemsByID() {
+		assertTrue(!dao.getItemsByID(10001).isEmpty());
+	}
 
 }
