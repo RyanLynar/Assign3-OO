@@ -78,11 +78,18 @@ public class DAOTitles implements DAO<Titles> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection().prepareStatement(
+<<<<<<< HEAD
 					"UPDATE " + DAOTitles.tName + " SET " + DAOTitles.COLUMNS[1] + " =?, " + DAOTitles.COLUMNS[2] + " =? "
 							+ DAOTitles.COLUMNS[3] + " =? WHERE " + DAOTitles.COLUMNS[0] + " =?;");
 			s.setString(1, item.getTitle());
+=======
+					"UPDATE " + DAOTitles.tName + " SET " + DAOTitles.COLUMNS[3] + " = ? WHERE " + DAOTitles.COLUMNS[2] + " = ? AND "
+							+ DAOTitles.COLUMNS[1] + " = ? AND " + DAOTitles.COLUMNS[0] + "=?;");
+			System.out.println(s.toString());
+			s.setString(3, item.getTitle());
+>>>>>>> master
 			s.setDate(2, item.getfDate());
-			s.setDate(3, item.gettDate());
+			s.setDate(1, item.gettDate());
 			s.setInt(4, item.getEmpNo());
 			result = s.executeUpdate() > 0;
 			DatabaseAccess.getInstance().closeConnection();
@@ -130,5 +137,15 @@ public class DAOTitles implements DAO<Titles> {
 		}
 		return entryList;
 	}
+<<<<<<< HEAD
+=======
+	public static void main(String[] args) {
+		DAOTitles t = new DAOTitles();
+		ArrayList<Titles> tList = t.getItemsByID(10001);
+		tList.get(0).settDate(Date.valueOf("1992-03-24"));
+		System.out.println(t.modifyItem(tList.get(0)));
+		
+	}
+>>>>>>> master
 
 }

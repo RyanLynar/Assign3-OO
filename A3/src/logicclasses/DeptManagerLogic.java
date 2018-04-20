@@ -35,7 +35,7 @@ public class DeptManagerLogic implements Logic<DeptManager> {
 	}
 
 	@Override
-	public ArrayList<DeptManager> getByID(int id) {
+	public <U> ArrayList<DeptManager> getByID(U id) {
 		return daoDeptManager.getItemsByID(id);
 	}
 

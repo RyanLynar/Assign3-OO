@@ -82,6 +82,7 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 		entry.setDeptID(input[1]);
 		entry.setfDate(Date.valueOf(input[2]));
 		entry.settDate(Date.valueOf(input[3]));
+		eList.add(entry);
 
 	}
 

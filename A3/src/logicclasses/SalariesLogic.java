@@ -34,7 +34,7 @@ public class SalariesLogic implements Logic<Salaries> {
 	}
 
 	@Override
-	public ArrayList<Salaries> getByID(int id) {
+	public <U> ArrayList<Salaries> getByID(U id) {
 		return daoSal.getItemsByID(id);
 	}
 
