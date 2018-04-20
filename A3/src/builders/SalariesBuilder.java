@@ -72,6 +72,7 @@ public class SalariesBuilder implements AbstractBuilder<Salaries> {
 		entry.setSalary(Integer.parseInt(input[1]));
 		entry.setfDate(Date.valueOf(input[2]));
 		entry.settDate(Date.valueOf(input[3]));
+		eList.add(entry);
 	}
 
 }

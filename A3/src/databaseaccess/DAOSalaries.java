@@ -81,13 +81,15 @@ public class DAOSalaries implements DAO<Salaries> {
 					.prepareStatement("UPDATE " + DAOSalaries.tName + " SET " + DAOSalaries.COLUMNS[1] + " = ?, "
 							+ DAOSalaries.COLUMNS[3] + " = ? WHERE " + DAOSalaries.COLUMNS[0] + " = ? AND "
 							+ DAOSalaries.COLUMNS[2] + " = ? ;");
+			System.out.println(s.toString());
 			s.setInt(1, item.getSalary());
-			s.setDate(4, item.getfDate());
-			s.setDate(2, item.gettDate());
+			s.setDate(4, item.gettDate());
+			s.setDate(2, item.getfDate());
 			s.setInt(3, item.getEmpNo());
 			System.out.println(s.toString());
 			if (s != null) {
 				int test = s.executeUpdate();
+				System.out.println(test);
 				result = test > 0;
 				DatabaseAccess.getInstance().closeConnection();
 				return result;
@@ -146,5 +148,13 @@ public class DAOSalaries implements DAO<Salaries> {
 		return result;
 	}
 
-	
+	public static void main(String args[]) {
+		DAOSalaries s = new DAOSalaries();
+		SalariesFactory f = (SalariesFactory) TransferFactoryCreator.createBuilder(Salaries.class);
+		System.out.println(s.addItem(f.createFromInput(new String[] {"1000","1999","1992-03-24","1992-03-24"})));
+		Salaries temp = f.createFromInput(new String[] {"10001","1999","1992-03-24","1987-06-26"});
+		temp.setSalary(24);
+		System.out.println(s.modifyItem(temp));
+		System.out.println(s.removeItem(temp));
+	}
 }

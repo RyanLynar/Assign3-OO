@@ -165,6 +165,6 @@ public class DAODepartments implements DAO<Departments> {
 		DAODepartments d= new DAODepartments();
 		ArrayList<Departments> testList = d.getItemsByID("d001");
 		testList.get(0).setDeptName("farts");
-		System.out.println(d.modifyItem(testList.get(0)));
+		System.out.println(d.removeItem(testList.get(0)));
 	}
 }
