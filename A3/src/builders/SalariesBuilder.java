@@ -20,7 +20,7 @@ public class SalariesBuilder implements AbstractBuilder<Salaries> {
 		if (cName.equals("to_date")) {
 			newEntry.settDate(data);
 		} else if (cName.equals("from_date")) {
-			newEntry.settDate(data);
+			newEntry.setfDate(data);
 		}
 	}
 
@@ -36,16 +36,18 @@ public class SalariesBuilder implements AbstractBuilder<Salaries> {
 	public void build(ResultSet r) {
 		eList.clear();
 		try {
-			r.first();
+			if (!r.first()) {
+				return;
+			}
 			while (!r.isAfterLast()) {
 				Salaries entry = new Salaries();
 				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
 					if (r.getMetaData().getColumnType(i + 1) == Types.INTEGER) {
-						if (DAOSalaries.COLUMNS[i].equals(r.getMetaData().getColumnName(i + 1))) {
+						if (DAOSalaries.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
 							setInt(entry, r.getInt(i + 1), r.getMetaData().getColumnName(i + 1));
 						}
 					} else if (r.getMetaData().getColumnType(i + 1) == Types.DATE) {
-						if (DAOSalaries.COLUMNS[i].equals(r.getMetaData().getColumnName(i + 1))) {
+						if (DAOSalaries.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
 							setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
 						}
 					}
@@ -53,7 +55,6 @@ public class SalariesBuilder implements AbstractBuilder<Salaries> {
 				eList.add(entry);
 				r.next();
 			}
-			r.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

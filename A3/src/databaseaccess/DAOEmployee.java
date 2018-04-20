@@ -67,7 +67,8 @@ public class DAOEmployee implements DAO<Employee> {
 	}
 
 	public boolean removeItem(Employee itemToRemove) {
-		//TODO Make Transactional so that it removes all items with the same key from other tables
+		// TODO Make Transactional so that it removes all items with the same key from
+		// other tables
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
@@ -76,7 +77,7 @@ public class DAOEmployee implements DAO<Employee> {
 			s.setInt(1, itemToRemove.getEmpNumber());
 
 			if (s != null) {
-				result = s.executeUpdate() >0;
+				result = s.executeUpdate() > 0;
 				DatabaseAccess.getInstance().closeConnection();
 				return result;
 			}
@@ -92,7 +93,7 @@ public class DAOEmployee implements DAO<Employee> {
 
 	public boolean modifyItem(Employee itemToModify) {
 		PreparedStatement s = null;
-		boolean result=false;
+		boolean result = false;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("UPDATE " + DAOEmployee.tName + " SET " + DAOEmployee.COLUMNS[1] + "=?,"
@@ -106,7 +107,7 @@ public class DAOEmployee implements DAO<Employee> {
 			s.setString(6, itemToModify.getValues()[0]);
 
 			if (s != null) {
-				result = s.executeUpdate() >0;
+				result = s.executeUpdate() > 0;
 				DatabaseAccess.getInstance().closeConnection();
 				return result;
 			}
@@ -126,7 +127,7 @@ public class DAOEmployee implements DAO<Employee> {
 						.executeQuery();
 			} else {
 				r = DatabaseAccess.getInstance().getConnection()
-						.prepareStatement("SELECT * FROM " + DAOEmployee.tName +";").executeQuery();
+						.prepareStatement("SELECT * FROM " + DAOEmployee.tName + ";").executeQuery();
 			}
 			if (r != null) {
 				EmployeeFactory fact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
@@ -139,13 +140,18 @@ public class DAOEmployee implements DAO<Employee> {
 		return entryList;
 
 	}
-
-	public ArrayList<Employee> getItemsByID(int id) {
+	@Override
+	public <U> ArrayList<Employee> getItemsByID(U id) {
 		ArrayList<Employee> result = new ArrayList<>();
 		try {
 			ResultSet r = null;
 			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"SELECT * FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
+			if (id instanceof Integer) {
+				s.setInt(1, (int) id);
+			} else {
+				throw new IllegalArgumentException("Invallid Key Type");
+			}
 			r = s.executeQuery();
 			if (r != null) {
 				EmployeeFactory fact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
@@ -158,4 +164,12 @@ public class DAOEmployee implements DAO<Employee> {
 		return result;
 
 	}
+<<<<<<< HEAD
 }
+=======
+	public static void main(String[] args) {
+		DAOEmployee emp = new DAOEmployee();
+		EmployeeFactory eFact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
+	}
+}
+>>>>>>> master

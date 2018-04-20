@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import transferobj.Departments;
 import transferobj.Employee;
 
-public class DepartmentsBuilder implements AbstractBuilder<Departments>{
+public class DepartmentsBuilder implements AbstractBuilder<Departments> {
 	private ArrayList<Departments> eList;
-	
+
 	public DepartmentsBuilder() {
 		eList = new ArrayList<Departments>();
 	}
-	
+
 	private void setString(Departments newEmp, String data, String cName) {
 		if (cName.equals("dept_no")) {
 			newEmp.setDeptNumber(data);
@@ -21,25 +21,22 @@ public class DepartmentsBuilder implements AbstractBuilder<Departments>{
 			newEmp.setDeptName(data);
 		}
 	}
-	
-	
 
 	@Override
 	public void build(ResultSet r) {
 		eList.clear();
 		try {
-			r.first();
-			while(!r.isAfterLast()) {
+			if(!r.first()) {return;}
+			while (!r.isAfterLast()) {
 				Departments entry = new Departments();
-				
-				for(int i = 0;i < r.getMetaData().getColumnCount(); i++) {
+
+				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
 					this.setString(entry, r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
 				}
 				eList.add(entry);
 				r.next();
 			}
-			r.close();
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 	}
