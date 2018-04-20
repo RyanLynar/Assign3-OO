@@ -42,5 +42,4 @@ public class DeptEmployeeLogic implements Logic<DeptEmployee> {
 		DeptEmployee item = deFact.createFromInput(toModify);
 		return daoDE.modifyItem(item);
 	}
-
 }

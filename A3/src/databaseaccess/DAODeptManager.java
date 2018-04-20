@@ -75,8 +75,8 @@ public class DAODeptManager implements DAO<DeptManager> {
 		boolean result = false;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("UPDATE " + DAODeptManager.tName + " SET " + DAODeptManager.COLUMNS[1]
-							+ "=?," + DAODeptManager.COLUMNS[2] + "=?," + DAODeptManager.COLUMNS[3] + "=? WHERE "
+					.prepareStatement("UPDATE " + DAODeptManager.tName + " SET " + DAODeptManager.COLUMNS[1] + "=?,"
+							+ DAODeptManager.COLUMNS[2] + "=?," + DAODeptManager.COLUMNS[3] + "=? WHERE "
 							+ DAODeptManager.COLUMNS[0] + " = ?;");
 
 			s.setString(1, item.getDeptNumber());
@@ -102,8 +102,8 @@ public class DAODeptManager implements DAO<DeptManager> {
 		try {
 			ResultSet r = null;
 			if (numRows == -1) {
-				r = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT * FROM " + DAODeptManager.tName + ";")
-						.executeQuery();
+				r = DatabaseAccess.getInstance().getConnection()
+						.prepareStatement("SELECT * FROM " + DAODeptManager.tName + ";").executeQuery();
 			} else {
 				r = DatabaseAccess.getInstance().getConnection()
 						.prepareStatement("SELECT * FROM " + DAODeptManager.tName + ";").executeQuery();
@@ -120,13 +120,19 @@ public class DAODeptManager implements DAO<DeptManager> {
 	}
 
 	@Override
-	public ArrayList<DeptManager> getItemsByID(int id) {
+	public <U> ArrayList<DeptManager> getItemsByID(U id) {
 		ArrayList<DeptManager> result = new ArrayList<>();
 		try {
 			ResultSet r = null;
 			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"SELECT * FROM " + DAODeptManager.tName + " WHERE " + DAODeptManager.COLUMNS[0] + " = ?");
-			s.setInt(1, id);
+			if (id instanceof Integer) {
+				s.setInt(1, (int) id);
+			} else if (id instanceof String) {
+				s.setString(1, (String) id);
+			} else {
+				throw new IllegalArgumentException("Invalid Key Type");
+			}
 			System.out.println("DEPTM Statement " + s.toString());
 			r = s.executeQuery();
 			if (r != null) {

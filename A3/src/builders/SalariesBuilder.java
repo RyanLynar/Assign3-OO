@@ -36,7 +36,9 @@ public class SalariesBuilder implements AbstractBuilder<Salaries> {
 	public void build(ResultSet r) {
 		eList.clear();
 		try {
-			r.first();
+			if (!r.first()) {
+				return;
+			}
 			while (!r.isAfterLast()) {
 				Salaries entry = new Salaries();
 				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
@@ -53,7 +55,6 @@ public class SalariesBuilder implements AbstractBuilder<Salaries> {
 				eList.add(entry);
 				r.next();
 			}
-			r.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

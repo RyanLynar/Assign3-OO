@@ -48,6 +48,7 @@ public class DAOTitles implements DAO<Titles> {
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("DELETE FROM " + DAOTitles.tName + " WHERE " + DAOTitles.COLUMNS[0] + " =?;");
+			s.setInt(1, item.getEmpNo());
 			if (s != null) {
 				result = s.executeUpdate() > 0;
 				DatabaseAccess.getInstance().closeConnection();
@@ -98,13 +99,17 @@ public class DAOTitles implements DAO<Titles> {
 	}
 
 	@Override
-	public ArrayList<Titles> getItemsByID(int id) {
+	public <U> ArrayList<Titles> getItemsByID(U id) {
 		ArrayList<Titles> entryList = new ArrayList<>();
 		try {
 			PreparedStatement s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("SELECT * FROM " + DAOTitles.tName + " WHERE " + DAOTitles.COLUMNS[0] + " = ?;");
-			s.setInt(1, id);
-			System.out.println("Titles "+s.toString());
+			if (id instanceof Integer) {
+				s.setInt(1, (int) id);
+			} else {
+				throw new IllegalArgumentException("Invalid Key Type");
+			}
+			System.out.println("Titles " + s.toString());
 			ResultSet r = s.executeQuery();
 			TitlesFactory fact = (TitlesFactory) TransferFactoryCreator.createBuilder(Titles.class);
 			entryList = fact.createListFromResults(r);

@@ -12,6 +12,10 @@ import transferobj.DeptEmployee;
 public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 	ArrayList<DeptEmployee> eList;
 
+	public DeptEmployeeBuilder() {
+		eList = new ArrayList<>();
+	}
+
 	private void setString(DeptEmployee newEntry, String data, String cName) {
 		if (cName.equals("dept_no")) {
 			newEntry.setDeptID(data);
@@ -32,14 +36,11 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 		}
 	}
 
-	public DeptEmployeeBuilder() {
-		eList = new ArrayList<>();
-	}
-
 	@Override
 	public void build(ResultSet r) {
 		eList.clear();
 		try {
+			if(!r.first()) {return;}
 			while (!r.isAfterLast()) {
 				DeptEmployee entry = new DeptEmployee();
 				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
@@ -56,20 +57,17 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 							setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
 						}
 					}
-					
+
 				}
-			eList.add(entry);
-			r.next();
+				eList.add(entry);
+				r.next();
 			}
 		} catch (
-
 		SQLException e) {
 			System.out.println(e.getMessage());
 		}
 
 	}
-	
-
 
 	@Override
 	public ArrayList<DeptEmployee> returnList() {
@@ -84,8 +82,7 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 		entry.setDeptID(input[1]);
 		entry.setfDate(Date.valueOf(input[2]));
 		entry.settDate(Date.valueOf(input[3]));
-		
-	}
-	
-}
 
+	}
+
+}
