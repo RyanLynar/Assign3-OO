@@ -2,11 +2,20 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import databaseaccess.DAODeptManager;
+import transferobj.DeptManager;
+
 public class DAODeptManagerTest {
+	DAODeptManager dao;
+	DeptManager obj;
+	Date date;
+	Long now;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -14,6 +23,9 @@ public class DAODeptManagerTest {
 
 	@Before
 	public void setUp() throws Exception {
+		now = new Long(1524188049353L);
+		date = new Date(now);
+		dao = new DAODeptManager();
 	}
 
 	@Test

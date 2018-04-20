@@ -30,9 +30,9 @@ public class TitlesBuilder implements AbstractBuilder<Titles> {
 	}
 
 	private void setDate(Titles newEntry, Date data, String cName) {
-		if (cName.equals("from_date'")) {
+		if (cName.equals("from_date")) {
 			newEntry.setfDate(data);
-		} else if (cName.equals("start_date")) {
+		} else if (cName.equals("to_date")) {
 			newEntry.settDate(data);
 		}
 	}
@@ -47,24 +47,21 @@ public class TitlesBuilder implements AbstractBuilder<Titles> {
 			while (!r.isAfterLast()) {
 				Titles entry = new Titles();
 				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
-					if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
-						if (r.getMetaData().getColumnType(i + 1) == Types.VARCHAR) {
-							setString(entry, r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
-						}
-					} else if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
-						if (r.getMetaData().getColumnType(i + 1) == Types.INTEGER) {
-							setInt(entry, r.getInt(i + 1), r.getMetaData().getColumnName(i + 1));
-						} else if (DAOTitles.COLUMNS[i] == r.getMetaData().getColumnName(i + 1)) {
-							if (r.getMetaData().getColumnType(i + 1) == Types.DATE) {
-								setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
-							}
-						}
+					if (r.getMetaData().getColumnType(i + 1) == Types.VARCHAR) {
+						setString(entry, r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
+
+					} else if (r.getMetaData().getColumnType(i + 1) == Types.INTEGER) {
+						setInt(entry, r.getInt(i + 1), r.getMetaData().getColumnName(i + 1));
+					} else if (r.getMetaData().getColumnType(i + 1) == Types.DATE) {
+						setDate(entry, r.getDate(i + 1), r.getMetaData().getColumnName(i + 1));
 					}
 				}
 				eList.add(entry);
 				r.next();
 			}
-		} catch (SQLException e) {
+		} catch (
+
+		SQLException e) {
 			e.printStackTrace();
 		}
 

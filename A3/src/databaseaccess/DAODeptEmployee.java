@@ -20,9 +20,10 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("INSERT INTO " + DAODeptEmployee.tName + " VALUES(?,?,?,?);");
-			for (int i = 0; i < DAODeptEmployee.COLUMNS.length; i++) {
-				s.setString(i, item.getValues()[i]);
-			}
+			s.setInt(1, item.getEmpID());
+			s.setString(2, item.getDeptID());
+			s.setDate(3, item.getfDate());
+			s.setDate(4, item.gettDate());
 			result = s.executeUpdate() == 1;
 			DatabaseAccess.getInstance().closeConnection();
 			return result;
@@ -44,7 +45,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 
 			int temp = s.executeUpdate();
 			System.out.println(temp);
-			result = temp>0;
+			result = temp > 0;
 			DatabaseAccess.getInstance().closeConnection();
 			return result;
 		} catch (SQLException e) {
@@ -60,7 +61,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("UPDATE " + DAODeptEmployee.tName + " SET " + DAODeptEmployee.COLUMNS[2] + "=?"
-							+ DAODeptEmployee.COLUMNS[3] + "=? + WHERE " + DAODeptEmployee.COLUMNS[0] + " =? AND "
+							+ DAODeptEmployee.COLUMNS[3] + "=? WHERE " + DAODeptEmployee.COLUMNS[0] + " =? AND "
 							+ DAODeptEmployee.COLUMNS[1] + "=?;");
 			s.setDate(1, item.getfDate());
 			s.setDate(2, item.gettDate());
@@ -85,21 +86,22 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
 			result = fact.createListFromResults(r);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return result;
 	}
+
 	@Override
 	public <U> ArrayList<DeptEmployee> getItemsByID(U id) {
 		ArrayList<DeptEmployee> result = new ArrayList<>();
 		try {
 			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"SELECT * FROM " + DAODeptEmployee.tName + " WHERE " + DAODeptEmployee.COLUMNS[0] + " = ?;");
-			if(id instanceof Integer) {
-				s.setInt(1, (int)id);
-			}else if(id instanceof String) {
-				s.setString(1, (String)id);
-			}else {
+			if (id instanceof Integer) {
+				s.setInt(1, (int) id);
+			} else if (id instanceof String) {
+				s.setString(1, (String) id);
+			} else {
 				throw new IllegalArgumentException("Invallid Key Type");
 			}
 
@@ -113,6 +115,4 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		}
 		return result;
 	}
-
-	
 }

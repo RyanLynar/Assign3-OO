@@ -17,11 +17,6 @@ public class BuilderDeptEmployeeTest {
 	}
 
 	@Test
-	public void testDeptEmployeeBuilder() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testBuildResultSet() {
 		fail("Not yet implemented");
 	}

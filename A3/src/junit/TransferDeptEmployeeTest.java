@@ -2,6 +2,10 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+import java.util.Calendar;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -10,6 +14,8 @@ import transferobj.DeptEmployee;
 
 public class TransferDeptEmployeeTest {
 	public DeptEmployee deptEmployee;
+	Date date;
+	int result;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -17,56 +23,84 @@ public class TransferDeptEmployeeTest {
 
 	@Before
 	public void setUp() throws Exception {
+		deptEmployee = new DeptEmployee();
 	}
+	
+	@After
+	public void tearDown() throws Exception {
+		System.out.println("TransferDeptEmployeeTest Complete");
+	}
+
 
 	@Test
 	public void testGetEmpID() {
-		fail("Not yet implemented");
+		deptEmployee.setEmpID(10);
+		result = deptEmployee.getEmpID();
+		assertEquals(10, result);
 	}
 
 	@Test
 	public void testSetEmpID() {
-		fail("Not yet implemented");
+		deptEmployee.setEmpID(24444);
+		result = deptEmployee.getEmpID();
+		assertEquals(24444, result);
 	}
 
 	@Test
 	public void testGetDeptID() {
-		fail("Not yet implemented");
+		deptEmployee.setDeptID("D222");
+		assertTrue(deptEmployee.getDeptID().equals("D222"));
 	}
 
 	@Test
 	public void testSetDeptID() {
-		fail("Not yet implemented");
+		deptEmployee.setDeptID("D919");
+		assertTrue(deptEmployee.getDeptID().equals("D919"));
 	}
 
 	@Test
 	public void testGetfDate() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		deptEmployee.setfDate(date);
+		assertTrue(deptEmployee.getfDate().getTime() == now);
 	}
 
 	@Test
 	public void testSetfDate() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		deptEmployee.setfDate(date);
+		assertTrue(deptEmployee.getfDate().getTime() == now);
 	}
 
 	@Test
 	public void testGettDate() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		deptEmployee.settDate(date);
+		assertTrue(deptEmployee.gettDate().getTime() == now);
 	}
 
 	@Test
 	public void testSettDate() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		deptEmployee.settDate(date);
+		assertTrue(deptEmployee.gettDate().getTime() == now);
 	}
 
 	@Test
 	public void testGetValues() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		deptEmployee.setDeptID("D001");
+		deptEmployee.setEmpID(20);
+		deptEmployee.setfDate(date);
+		deptEmployee.settDate(date);
+		
+		String[] temp = new String[] {"20","D001","2018-04-19","2018-04-19"};
+		
+		assertArrayEquals(deptEmployee.getValues(), temp);
 	}
-
-	@Test
-	public void testPrintAll() {
-		fail("Not yet implemented");
-	}
-
 }
