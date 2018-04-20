@@ -1,5 +1,6 @@
 package databaseaccess;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -124,26 +125,43 @@ public class DAODeptManager implements DAO<DeptManager> {
 		ArrayList<DeptManager> result = new ArrayList<>();
 		try {
 			ResultSet r = null;
-			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
-					"SELECT * FROM " + DAODeptManager.tName + " WHERE " + DAODeptManager.COLUMNS[0] + " = ?");
+			PreparedStatement s = null;
 			if (id instanceof Integer) {
+				s = DatabaseAccess.getInstance().getConnection().prepareStatement(
+						"SELECT * FROM " + DAODeptManager.tName + " WHERE " + DAODeptManager.COLUMNS[0] + " = ?");
 				s.setInt(1, (int) id);
 			} else if (id instanceof String) {
+				s = DatabaseAccess.getInstance().getConnection().prepareStatement(
+						"SELECT * FROM " + DAODeptManager.tName + " WHERE " + DAODeptManager.COLUMNS[1] + " = ?");
+
 				s.setString(1, (String) id);
 			} else {
 				throw new IllegalArgumentException("Invalid Key Type");
 			}
-			System.out.println("DEPTM Statement " + s.toString());
-			r = s.executeQuery();
-			if (r != null) {
-				DeptManagerFactory fact = (DeptManagerFactory) TransferFactoryCreator.createBuilder(DeptManager.class);
-				result = fact.createListFromResults(r);
+			if (s != null) {
+				r = s.executeQuery();
+				if (r != null) {
+					DeptManagerFactory fact = (DeptManagerFactory) TransferFactoryCreator
+							.createBuilder(DeptManager.class);
+					result = fact.createListFromResults(r);
+				}
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		DatabaseAccess.getInstance().closeConnection();
 		return result;
+	}
+
+	public static void main(String[] args) {
+		DAODeptManager m = new DAODeptManager();
+		ArrayList<DeptManager> mList = m.getItemsByID(110022);
+		mList.get(0).setFromDate(Date.valueOf("1992-03-24"));
+		System.out.println(m.modifyItem(mList.get(0)));
+		mList = m.getItemsByID("d001");
+		mList.get(0).setToDate(Date.valueOf("1992-03-24"));
+		System.out.println(m.modifyItem(mList.get(0)));
+
 	}
 
 }
