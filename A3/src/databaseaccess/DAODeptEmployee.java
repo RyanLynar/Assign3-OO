@@ -122,7 +122,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
 			result = fact.createListFromResults(r);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return result;
 	}
@@ -157,8 +157,4 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		}
 		return result;
 	}
-
-	public static void main(String[] args) {
-			}
-
 }
