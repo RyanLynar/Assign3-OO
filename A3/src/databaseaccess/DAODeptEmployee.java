@@ -95,15 +95,9 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
-<<<<<<< HEAD
-					.prepareStatement("UPDATE " + DAODeptEmployee.tName + " SET " + DAODeptEmployee.COLUMNS[2] + "=?"
-							+ DAODeptEmployee.COLUMNS[3] + "=? WHERE " + DAODeptEmployee.COLUMNS[0] + " =? AND "
-							+ DAODeptEmployee.COLUMNS[1] + "=?;");
-=======
 					.prepareStatement("UPDATE " + DAODeptEmployee.tName + " SET " + DAODeptEmployee.COLUMNS[2]
 							+ " = ?, " + DAODeptEmployee.COLUMNS[3] + " = ?  WHERE " + DAODeptEmployee.COLUMNS[0]
 							+ " = ? AND " + DAODeptEmployee.COLUMNS[1] + " = ?;");
->>>>>>> master
 			s.setDate(1, item.getfDate());
 			s.setDate(2, item.gettDate());
 			s.setInt(3, item.getEmpID());
@@ -163,12 +157,4 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		}
 		return result;
 	}
-<<<<<<< HEAD
 }
-=======
-
-	public static void main(String[] args) {
-			}
-
-}
->>>>>>> master
