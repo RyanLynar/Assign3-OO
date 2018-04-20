@@ -35,8 +35,8 @@ public class DAOSalaries implements DAO<Salaries> {
 				ResultSet res = maxKey.executeQuery();
 				System.out.println("At first " +res.first());
 					emp.addItem(empF
-						.createFromInput(new String[] { "" + (res.getInt(1) +1),"1992-03-24",
-								"Placeholder", "PlaceHolder", "P", "1992-03-24" }));
+						.createFromInput(new String[] { "" + (res.getInt(1) +1),Date.valueOf("1992-03-24").toString(),
+								"Placeholder", "PlaceHolder", "M", "1992-03-24" }));
 					s.setInt(1, res.getInt(1)+1);
 					res.close();
 			}else {
@@ -145,11 +145,10 @@ public class DAOSalaries implements DAO<Salaries> {
 		return result;
 	}
 	public static void main(String[] args) {
+		System.out.println(Date.valueOf("1992-03-24").toString());
 		DAOSalaries test = new DAOSalaries();
 		ArrayList<Salaries> tList = test.getItemsByID(10010);
-		for(int i = 0; i <DAOSalaries.COLUMNS.length; i++) {
-			System.out.print(" " + tList.get(0).getValues()[i]);
-		}
+		
 		Salaries s = new Salaries();
 		s.setEmpNo(666666);
 		s.setSalary(21);

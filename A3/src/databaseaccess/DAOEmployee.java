@@ -164,4 +164,8 @@ public class DAOEmployee implements DAO<Employee> {
 		return result;
 
 	}
+	public static void main(String[] args) {
+		DAOEmployee emp = new DAOEmployee();
+		EmployeeFactory eFact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
+	}
 }
