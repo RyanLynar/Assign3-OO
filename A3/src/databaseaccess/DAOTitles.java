@@ -1,13 +1,16 @@
 package databaseaccess;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import factories.TitlesFactory;
+import factories.EmployeeFactory;
 import factories.TransferFactoryCreator;
 import transferobj.Titles;
+import transferobj.Employee;
 
 public class DAOTitles implements DAO<Titles> {
 	public static String tName = "titles";
@@ -19,16 +22,24 @@ public class DAOTitles implements DAO<Titles> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("INSERT INTO " + DAOTitles.tName + " VALUE(?,?,?);");
+					.prepareStatement("INSERT INTO " + DAOTitles.tName + " VALUE(?,?,?,?);");
 			ResultSet maxKey = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("SELECT MAX(" + DAOTitles.COLUMNS[0] + ") FROM " + DAOTitles.tName)
+					.prepareStatement("SELECT MAX(" + DAOEmployee.COLUMNS[0] + ") FROM " + DAOEmployee.tName)
 					.executeQuery();
 			maxKey.first();
-			s.setInt(1, maxKey.getInt(1) + 1);
 			s.setString(2, item.getTitle());
 			s.setDate(3, item.getfDate());
 			s.setDate(4, item.gettDate());
-			maxKey.close();
+			DAOEmployee emp = new DAOEmployee();
+			EmployeeFactory empF = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);
+			if (emp.getItemsByID(new Integer(item.getEmpNo())).size() == 0) {
+				emp.addItem(empF.createFromInput(new String[] { "" + (maxKey.getInt(1) + 1),
+						Date.valueOf("1992-03-24").toString(), "PlaceHolder", "PlaceHolder", "M", "1992-03-24" }));
+					s.setInt(1, maxKey.getInt(1)+1);
+				maxKey.close();
+			} else {
+				s.setInt(1, item.getEmpNo());
+			}
 			if (s != null) {
 				result = s.executeUpdate() == 1;
 				DatabaseAccess.getInstance().closeConnection();
@@ -119,6 +130,10 @@ public class DAOTitles implements DAO<Titles> {
 		}
 		return entryList;
 	}
-
+	public static void main(String[] args) {
+		DAOTitles t = new DAOTitles();
+		TitlesFactory tF = (TitlesFactory) TransferFactoryCreator.createBuilder(Titles.class);
+		System.out.println(t.addItem(tF.createFromInput(new String[] {"666666","Lord Captain Commander","1992-03-24","1992-03-24"})));
+	}
 
 }
