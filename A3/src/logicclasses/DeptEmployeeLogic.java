@@ -21,7 +21,7 @@ public class DeptEmployeeLogic implements Logic<DeptEmployee> {
 	}
 
 	@Override
-	public ArrayList<DeptEmployee> getByID(int id) {
+	public <U> ArrayList<DeptEmployee> getByID(U id) {
 		return daoDE.getItemsByID(id);
 	}
 

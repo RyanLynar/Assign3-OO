@@ -39,7 +39,7 @@ public class DepartmentsLogic implements Logic<Departments> {
 	}
 
 	@Override
-	public ArrayList<Departments> getByID(int id) {
+	public <U> ArrayList<Departments> getByID(U id) {
 		return daoDept.getItemsByID(id);
 	}
 
