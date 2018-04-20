@@ -56,7 +56,7 @@ public class DAODeptManager implements DAO<DeptManager> {
 				String[] temp = sPlaceHolder.split("d");
 				int placeHolder = Integer.parseInt(temp[1]);
 				placeHolder++;
-				s.setString(1, String.format("d%03d", placeHolder));
+				s.setString(2, String.format("d%03d", placeHolder));
 				r.close();
 			} else {
 				s.setString(2, item.getDeptNumber());
@@ -84,12 +84,14 @@ public class DAODeptManager implements DAO<DeptManager> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection().prepareStatement(
-					"DELETE FROM " + DAODeptManager.tName + " WHERE " + DAODeptManager.COLUMNS[0] + " = ?;");
+					"DELETE FROM " + DAODeptManager.tName + " WHERE " + DAODeptManager.COLUMNS[0] + " = ? AND "+ DAODeptManager.COLUMNS[1] + " = ?");
+			
 			s.setInt(1, item.getEmployeeNumber());
-
+			s.setString(2, item.getDeptNumber());
 			if (s != null) {
+				result = s.executeUpdate()>0;
 				DatabaseAccess.getInstance().closeConnection();
-				return s.executeUpdate() > 0;
+				
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -108,7 +110,7 @@ public class DAODeptManager implements DAO<DeptManager> {
 					.prepareStatement("UPDATE " + DAODeptManager.tName + " SET " + DAODeptManager.COLUMNS[1] + "=?,"
 							+ DAODeptManager.COLUMNS[2] + "=?," + DAODeptManager.COLUMNS[3] + "= ? WHERE "
 							+ DAODeptManager.COLUMNS[0] + " = ?;");
-
+			
 			s.setString(1, item.getDeptNumber());
 			s.setDate(2, item.getFromDate());
 			s.setDate(3, item.getToDate());
@@ -186,7 +188,8 @@ public class DAODeptManager implements DAO<DeptManager> {
 		DAODeptManager emp = new DAODeptManager();
 		DeptManagerFactory dFact = (DeptManagerFactory) TransferFactoryCreator.createBuilder(DeptManager.class);
 		System.out.println(emp.addItem( dFact.createFromInput(new String[]{"25","d002","1992-03-24","1992-03-24"})));
-
+		System.out.println(emp.removeItem( dFact.createFromInput(new String[]{"110114", "d002", "1989-12-17", "9999-01-01"})));
+		
 
 	}
 

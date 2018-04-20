@@ -13,7 +13,7 @@ import transferobj.Departments;
 public class TransferDepartmentTest {
 
 	public Departments department;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -25,48 +25,38 @@ public class TransferDepartmentTest {
 
 	@Test
 	public void getDeptNumberTest() {
-		assertTrue(department.getDeptNumber().equals("D100"));
 		department.setDeptNumber("D100");
+		assertTrue(department.getDeptNumber().equals("D100"));
 	}
-	
+
 	@Test
 	public void setDeptNumberTest() {
-	department.setDeptNumber("5");
-	Assert.assertEquals(department.getDeptNumber(),"5" );
+		department.setDeptNumber("5");
+		Assert.assertEquals(department.getDeptNumber(), "5");
 	}
-	
+
 	@Test
 	public void getDeptNameTest() {
 		department.setDeptName("Billy");
 		assertTrue(department.getDeptName().equals("Billy"));
 	}
-	
+
 	@Test
-	public void setDeptNameTest(){
+	public void setDeptNameTest() {
 		department.setDeptName("Engineer");
-		Assert.assertEquals(department.getDeptName(),"Engineer" );
+		Assert.assertEquals(department.getDeptName(), "Engineer");
 	}
-	
+
 	@Test
-	public void getValueTest(){
-		
-        department.setDeptName("Engineering");
-        department.setDeptNumber("5");
-       
-        
-        String[] temp = new String[] {"Engineering","5"};
-        
-        assertArrayEquals(department.getValues(), temp);
-		
-	}
-	
-	@Test
-	public void printAllTest(){
-		department.setDeptName("Engineer");
+	public void getValueTest() {
+
+		department.setDeptName("Engineering");
 		department.setDeptNumber("5");
-		//assertEquals()
-		
+
+		String[] temp = new String[] { "5", "Engineering" };
+
+		assertArrayEquals(department.getValues(), temp);
+
 	}
-	
 
 }

@@ -2,6 +2,8 @@ package junit;
 
 import static org.junit.Assert.*;
 import java.sql.Date;
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,7 +29,7 @@ public class DAODeptEmployeeTest {
 		
 		obj = new DeptEmployee();
 		obj.setDeptID("d005");
-		obj.setEmpID(10001);
+		obj.setEmpID(66666);
 		obj.setfDate(date);
 		obj.settDate(date);
 	}
@@ -45,17 +47,23 @@ public class DAODeptEmployeeTest {
 
 	@Test
 	public void testModifyItem() {
+		obj.setEmpID(10002);
+		obj.setDeptID("d007");
+		obj.setfDate(Date.valueOf("1999-10-10"));
 		assertTrue(dao.modifyItem(obj));
 	}
 
-//	@Test
-//	public void testCreateList() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetItemsByID() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testCreateList() {
+		ArrayList<DeptEmployee> list = dao.createList(50);
+		assertTrue(!list.isEmpty());
+	}
+
+	@Test
+	public void testGetItemsByID() {
+
+		ArrayList<DeptEmployee> list = dao.getItemsByID(10002);
+		assertTrue(!list.isEmpty());
+	}
 
   }
