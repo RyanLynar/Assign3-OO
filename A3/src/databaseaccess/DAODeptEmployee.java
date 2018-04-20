@@ -20,9 +20,10 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("INSERT INTO " + DAODeptEmployee.tName + " VALUES(?,?,?,?);");
-			for (int i = 0; i < DAODeptEmployee.COLUMNS.length; i++) {
-				s.setString(i, item.getValues()[i]);
-			}
+			s.setInt(1 ,item.getEmpID());
+			s.setString(2,item.getDeptID());
+			s.setDate(3, item.getfDate());
+			s.setDate(4,item.gettDate());
 			result = s.executeUpdate() == 1;
 			DatabaseAccess.getInstance().closeConnection();
 			return result;
