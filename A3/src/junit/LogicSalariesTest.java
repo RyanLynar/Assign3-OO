@@ -2,18 +2,27 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class LogicSalariesTest {
+import logicclasses.SalariesLogic;
+import transferobj.Salaries;
 
+public class LogicSalariesTest {
+	SalariesLogic salaryL;
+    Salaries obj;
+    
+    
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
 
 	@Before
 	public void setUp() throws Exception {
+		//String []
 	}
 
 	@Test
@@ -23,7 +32,7 @@ public class LogicSalariesTest {
 
 	@Test
 	public void testAdd() {
-		fail("Not yet implemented");
+		assertTrue(salaryL.add());
 	}
 
 	@Test

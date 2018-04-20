@@ -6,7 +6,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import builders.SalariesBuilder;
+
 public class BuilderSalariesTest {
+	SalariesBuilder salary;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -18,17 +21,18 @@ public class BuilderSalariesTest {
 
 	@Test
 	public void testSalariesBuilder() {
-		fail("Not yet implemented");
+		
 	}
 
 	@Test
 	public void testBuildResultSet() {
-		fail("Not yet implemented");
+		salary.returnList();
+		assertNotNull(salary.returnList());
 	}
 
 	@Test
 	public void testReturnList() {
-		fail("Not yet implemented");
+		//assertNotNull(returnList());
 	}
 
 	@Test

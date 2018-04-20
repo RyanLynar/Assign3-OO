@@ -6,7 +6,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+
+import factories.SalariesFactory;
+
 public class FactorySalariesTeset {
+	SalariesFactory factory;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -14,16 +18,19 @@ public class FactorySalariesTeset {
 
 	@Before
 	public void setUp() throws Exception {
+		String[] temp = new String[] {"20","D001","2018-04-19","2018-04-19"};
 	}
 
 	@Test
 	public void testSalariesFactory() {
-		fail("Not yet implemented");
+		//r.first
+		//r.getint
+		//assertNotNull(factory.returnList(0), temp);
 	}
 
 	@Test
 	public void testCreateFromResultsResultSet() {
-		fail("Not yet implemented");
+		
 	}
 
 	@Test
