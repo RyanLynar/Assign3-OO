@@ -7,7 +7,11 @@ import java.util.ArrayList;
 
 import factories.EmployeeFactory;
 import factories.TransferFactoryCreator;
+import transferobj.DeptEmployee;
+import transferobj.DeptManager;
 import transferobj.Employee;
+import transferobj.Salaries;
+import transferobj.Titles;
 
 public class DAOEmployee implements DAO<Employee> {
 	public static String tName = "employees";
@@ -67,11 +71,31 @@ public class DAOEmployee implements DAO<Employee> {
 	}
 
 	public boolean removeItem(Employee itemToRemove) {
-		// TODO Make Transactional so that it removes all items with the same key from
-		// other tables
+
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
+			DAODeptEmployee dEmp = new DAODeptEmployee();
+			DAODeptManager dMan = new DAODeptManager();
+			DAOTitles titles = new DAOTitles();
+			DAOSalaries salaries = new DAOSalaries();
+			ArrayList<DeptEmployee> deleteDEList = dEmp.getItemsByID(itemToRemove.getEmpNumber());
+			ArrayList<DeptManager> deleteDMList = dMan.getItemsByID(itemToRemove.getEmpNumber());
+			ArrayList<Titles> deleteTList = titles.getItemsByID(itemToRemove.getEmpNumber());
+			ArrayList<Salaries> deleteSList = salaries.getItemsByID(itemToRemove.getEmpNumber());
+			if (deleteDEList.size() != 0) {
+				dEmp.removeItem(deleteDEList.get(0));
+			}
+			if (deleteDMList.size() != 0) {
+				dMan.removeItem(deleteDMList.get(0));
+				;
+			}
+			if (deleteTList.size() != 0) {
+				titles.removeItem(deleteTList.get(0));
+			}
+			if (deleteSList.size() != 0) {
+				salaries.removeItem(deleteSList.get(0));
+			}
 			s = DatabaseAccess.getInstance().getConnection().prepareStatement(
 					"DELETE FROM " + DAOEmployee.tName + " WHERE " + DAOEmployee.COLUMNS[0] + " = ?;");
 			s.setInt(1, itemToRemove.getEmpNumber());
@@ -140,6 +164,7 @@ public class DAOEmployee implements DAO<Employee> {
 		return entryList;
 
 	}
+
 	@Override
 	public <U> ArrayList<Employee> getItemsByID(U id) {
 		ArrayList<Employee> result = new ArrayList<>();
@@ -164,6 +189,7 @@ public class DAOEmployee implements DAO<Employee> {
 		return result;
 
 	}
+
 	public static void main(String[] args) {
 		DAOEmployee emp = new DAOEmployee();
 		EmployeeFactory eFact = (EmployeeFactory) TransferFactoryCreator.createBuilder(Employee.class);

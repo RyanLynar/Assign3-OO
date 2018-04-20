@@ -15,11 +15,18 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 
 	@Override
 	public boolean addItem(DeptEmployee item) {
+		DAOEmployee emp = new DAOEmployee();
+		DAODepartments dep = new DAODepartments();
+		
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("INSERT INTO " + DAODeptEmployee.tName + " VALUES(?,?,?,?);");
+			PreparedStatement eKey = DatabaseAccess.getInstance().getConnection()
+					.prepareStatement("SELECT MAX("+DAOEmployee.COLUMNS[0] + ") FROM " + DAOEmployee.tName + ";");
+			PreparedStatement dKey = DatabaseAccess.getInstance().getConnection()
+					.prepareStatement("SELECT MAX(" +DAODepartments.COLUMNS[0]+ ") FROM " + DAODepartments.tName+";");
 			s.setInt(1, item.getEmpID());
 			s.setString(2, item.getDeptID());
 			s.setDate(3, item.getfDate());
