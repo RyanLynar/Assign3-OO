@@ -62,12 +62,8 @@ public class DeptManagerBuilder implements AbstractBuilder<DeptManager> {
 						}
 					}
 				}
-<<<<<<< HEAD
-				
-=======
 				eList.add(entry);
 				r.next();
->>>>>>> master
 			}
 
 		} catch (SQLException e) {

@@ -1,13 +1,10 @@
 package junit;
 
 import static org.junit.Assert.*;
-
 import java.sql.Date;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import databaseaccess.DAOSalaries;
 import transferobj.Salaries;
 
