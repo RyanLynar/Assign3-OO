@@ -3,12 +3,17 @@ package junit;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import databaseaccess.DAOEmployee;
 import databaseaccess.DAOTitles;
+import databaseaccess.DatabaseAccess;
 import transferobj.Salaries;
 import transferobj.Titles;
 
@@ -23,13 +28,12 @@ public class DAOTitlesTest {
 	}
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		now = new Long(1524188049353L);
 		date = new Date(now);
 		dao = new DAOTitles();
 		
 		obj = new Titles();
-		obj.setEmpNo(2000);
 		obj.setfDate(date);
 		obj.settDate(date);
 		obj.setTitle("SomeTitle");
@@ -42,14 +46,47 @@ public class DAOTitlesTest {
 
 	@Test
 	public void testRemoveItem() {
+		int tempNum = 0;
+		
+		try {
+			PreparedStatement s = DatabaseAccess.getInstance().getConnection()
+					.prepareStatement("SELECT MAX(" 
+							+ DAOTitles.COLUMNS[0] 
+									+ ") FROM " + DAOTitles.tName 
+									+ ";");
+			ResultSet res = s.executeQuery();
+			res.first();
+			tempNum = res.getInt(1)+1;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		obj.setEmpNo(tempNum);
+		dao.addItem(obj);
 		assertTrue(dao.removeItem(obj));
 	}
 
 	@Test
 	public void testModifyItem() {
-		obj.setTitle("SomeTitle2");
-		assertTrue(dao.modifyItem(obj));
-		obj.setTitle("SomeTitle");
+		boolean temp;
+		int tempNum = 0;
+
+		try {
+			PreparedStatement s = DatabaseAccess.getInstance().getConnection()
+					.prepareStatement("SELECT MAX(" 
+							+ DAOTitles.COLUMNS[0] 
+									+ ") FROM " + DAOTitles.tName 
+									+ ";");
+			ResultSet res = s.executeQuery();
+			res.first();
+			tempNum = res.getInt(1)+1;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		obj.setEmpNo(tempNum);
+		dao.addItem(obj);
+		temp = dao.modifyItem(obj);
+
+		assertTrue(temp);
 	}
 
 //	@Test

@@ -3,15 +3,17 @@ package junit;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import databaseaccess.DAOEmployee;
-import databaseaccess.DAOSalaries;
+import databaseaccess.DatabaseAccess;
 import transferobj.Employee;
-import transferobj.Salaries;
+
 
 public class DAOEmployeeTest {
 	DAOEmployee dao;
@@ -35,24 +37,65 @@ public class DAOEmployeeTest {
 		obj.setEmpGender("M");
 		obj.setEmpHDate(date);
 		obj.setEmpLName("last");
-		obj.setEmpNumber(10001);
 	}
 
 	@Test
 	public void testAddItem() {
-		assertTrue(dao.addItem(obj));
+		boolean temp;
+		temp = dao.addItem(obj);
+		dao.removeItem(obj);
+		
+		assertTrue(temp);
 	}
 
 	@Test
 	public void testRemoveItem() {
-		assertTrue(dao.removeItem(obj));
+		boolean temp;
+		int tempNum = 0;
+
+		try {
+			PreparedStatement s = DatabaseAccess.getInstance().getConnection()
+					.prepareStatement("SELECT MAX(" 
+							+ DAOEmployee.COLUMNS[0] 
+									+ ") FROM " + DAOEmployee.tName 
+									+ ";");
+			ResultSet res = s.executeQuery();
+			res.first();
+			tempNum = res.getInt(1)+1;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		obj.setEmpNumber(tempNum);
+		dao.addItem(obj);
+		temp = dao.removeItem(obj);
+
+		assertTrue(temp);
 	}
 
 	@Test
 	public void testModifyItem() {
-		obj.setEmpLName("modify");
-		assertTrue(dao.modifyItem(obj));
-		obj.setEmpLName("last");
+		boolean temp;
+		int tempNum = 0;
+
+		try {
+			PreparedStatement s = DatabaseAccess.getInstance().getConnection()
+					.prepareStatement("SELECT MAX(" 
+							+ DAOEmployee.COLUMNS[0] 
+									+ ") FROM " + DAOEmployee.tName 
+									+ ";");
+			ResultSet res = s.executeQuery();
+			res.first();
+			tempNum = res.getInt(1)+1;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		obj.setEmpNumber(tempNum);
+		dao.addItem(obj);
+		temp = dao.modifyItem(obj);
+
+		assertTrue(temp);
 	}
 
 //	@Test

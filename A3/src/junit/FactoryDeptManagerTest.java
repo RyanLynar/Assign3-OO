@@ -2,11 +2,22 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import databaseaccess.DAODeptEmployee;
+import databaseaccess.DAODeptManager;
+import databaseaccess.DatabaseAccess;
+import factories.DeptEmployeeFactory;
+import factories.DeptManagerFactory;
+
 public class FactoryDeptManagerTest {
+	DeptManagerFactory factory;
+	ResultSet r;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -14,26 +25,25 @@ public class FactoryDeptManagerTest {
 
 	@Before
 	public void setUp() throws Exception {
-	}
-
-	@Test
-	public void testDeptManagerFactory() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCreateFromResultsResultSet() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testCreateFromInputStringArray() {
-		fail("Not yet implemented");
+		factory = new DeptManagerFactory();
+		r = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT * FROM " + DAODeptManager.tName + ";")
+				.executeQuery();
 	}
 
 	@Test
 	public void testCreateListFromResultsResultSet() {
-		fail("Not yet implemented");
+		ResultSet size = null;
+		int x = 0;
+		try {
+			size = DatabaseAccess.getInstance().getConnection().prepareStatement("SELECT COUNT(*) FROM " + DAODeptManager.tName + ";")
+					.executeQuery();
+			size.first();
+			x = size.getInt(1);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		assertEquals(factory.createListFromResults(r).size(), x);
 	}
 
 }

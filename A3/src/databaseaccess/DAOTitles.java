@@ -78,8 +78,8 @@ public class DAOTitles implements DAO<Titles> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection().prepareStatement(
-					"UPDATE " + DAOTitles.tName + " SET " + DAOTitles.COLUMNS[1] + " =?" + DAOTitles.COLUMNS[2] + " =?"
-							+ DAOTitles.COLUMNS[3] + " =? WHERE " + DAOTitles.COLUMNS[0] + "=?;");
+					"UPDATE " + DAOTitles.tName + " SET " + DAOTitles.COLUMNS[1] + " =?, " + DAOTitles.COLUMNS[2] + " =? "
+							+ DAOTitles.COLUMNS[3] + " =? WHERE " + DAOTitles.COLUMNS[0] + " =?;");
 			s.setString(1, item.getTitle());
 			s.setDate(2, item.getfDate());
 			s.setDate(3, item.gettDate());
@@ -129,11 +129,6 @@ public class DAOTitles implements DAO<Titles> {
 			System.out.println(e);
 		}
 		return entryList;
-	}
-	public static void main(String[] args) {
-		DAOTitles t = new DAOTitles();
-		TitlesFactory tF = (TitlesFactory) TransferFactoryCreator.createBuilder(Titles.class);
-		System.out.println(t.addItem(tF.createFromInput(new String[] {"666666","Lord Captain Commander","1992-03-24","1992-03-24"})));
 	}
 
 }
