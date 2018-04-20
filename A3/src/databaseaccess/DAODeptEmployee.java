@@ -58,7 +58,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("UPDATE " + DAODeptEmployee.tName + " SET " + DAODeptEmployee.COLUMNS[2] + "=?"
-							+ DAODeptEmployee.COLUMNS[3] + "=? + WHERE " + DAODeptEmployee.COLUMNS[0] + " =? AND "
+							+ DAODeptEmployee.COLUMNS[3] + "=? WHERE " + DAODeptEmployee.COLUMNS[0] + " =? AND "
 							+ DAODeptEmployee.COLUMNS[1] + "=?;");
 			s.setDate(1, item.getfDate());
 			s.setDate(2, item.gettDate());
@@ -83,7 +83,7 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
 			result = fact.createListFromResults(r);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 		}
 		return result;
 	}

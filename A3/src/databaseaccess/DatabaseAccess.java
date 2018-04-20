@@ -9,9 +9,9 @@ import com.mysql.jdbc.Driver;
 
 public class DatabaseAccess {
 	public static String server = "mysql";
-	public static String port = "3306";
+	public static String port = "3307";
 	public static String user = "root";
-	public static String pass = "password";
+	public static String pass = "Algonquin97";
 	public static String dbName = "employees";
 	private static DatabaseAccess access;
 

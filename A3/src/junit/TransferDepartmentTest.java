@@ -23,10 +23,8 @@ public class TransferDepartmentTest {
 
 	@Test
 	public void getDeptNumberTest() {
-		String deptNum = "5";
-		department.setDeptName(deptNum);
-		//department.getDeptNumber();
-		//Assert.assertEquals(department.getDeptNumber(deptNum),"5" );
+		department.setDeptNumber("D100");
+		assertTrue(department.getDeptNumber().equals("D100"));
 	}
 	
 	@Test

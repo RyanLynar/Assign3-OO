@@ -2,11 +2,17 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import transferobj.Employee;
+
 public class TransferEmployeeTest {
+	Employee emp;
+	Date date;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -14,81 +20,110 @@ public class TransferEmployeeTest {
 
 	@Before
 	public void setUp() throws Exception {
+		emp = new Employee();
 	}
 
 	@Test
 	public void testGetEmpNumber() {
-		fail("Not yet implemented");
+		emp.setEmpNumber(200);
+		assertEquals(200, emp.getEmpNumber());
 	}
 
 	@Test
 	public void testGetEmpFName() {
-		fail("Not yet implemented");
+		emp.setEmpFName("Fred");
+		assertTrue(emp.getEmpFName().equals("Fred"));
 	}
 
 	@Test
 	public void testGetEmpLName() {
-		fail("Not yet implemented");
+		emp.setEmpLName("Andrews");
+		assertTrue(emp.getEmpLName().equals("Andrews"));
 	}
 
 	@Test
 	public void testGetEmpName() {
-		fail("Not yet implemented");
+		emp.setEmpFName("aFirstName");
+		emp.setEmpLName("aLastName");
+		assertTrue(emp.getEmpName().equals("aFirstName aLastName"));
 	}
 
 	@Test
 	public void testSetEmpNumber() {
-		fail("Not yet implemented");
+		emp.setEmpNumber(9);
+		assertTrue(emp.getEmpNumber() == 9);
 	}
 
 	@Test
 	public void testSetEmpFName() {
-		fail("Not yet implemented");
+		emp.setEmpFName("firstName");
+		assertEquals("firstName", emp.getEmpFName());
 	}
 
 	@Test
 	public void testSetEmpLName() {
-		fail("Not yet implemented");
+		emp.setEmpLName("LastName");
+		assertEquals("LastName", emp.getEmpLName());
 	}
 
 	@Test
 	public void testSetEmpGender() {
-		fail("Not yet implemented");
+		emp.setEmpGender("F");
+		assertEquals("F", emp.getEmpGender());
 	}
 
 	@Test
 	public void testSetEmpBDate() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		emp.setEmpBDate(date);
+		assertTrue(emp.getEmpBDate().getTime() == now);
 	}
 
 	@Test
 	public void testSetEmpHDate() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		emp.setEmpHDate(date);
+		assertTrue(emp.getEmpHDate().getTime() == now);
 	}
 
 	@Test
 	public void testGetEmpGender() {
-		fail("Not yet implemented");
+		emp.setEmpGender("M");
+		assertTrue(emp.getEmpGender().equals("M"));
 	}
 
 	@Test
 	public void testGetEmpBDate() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		emp.setEmpBDate(date);
+		assertTrue(emp.getEmpBDate().getTime() == now);
 	}
 
 	@Test
 	public void testGetEmpHDate() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testPrintAll() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		emp.setEmpHDate(date);
+		assertTrue(emp.getEmpHDate().getTime() == now);
 	}
 
 	@Test
 	public void testGetValues() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+		date = new Date(now);
+		emp.setEmpBDate(date);
+		emp.setEmpFName("Hello");
+		emp.setEmpGender("Hello");
+		emp.setEmpHDate(date);
+		emp.setEmpLName("Hello");
+		emp.setEmpNumber(1001);
+		
+		String[] temp = new String[] {"1001", "2018-04-19", "Hello", "Hello", "Hello", "2018-04-19"};
+		
+		assertArrayEquals(emp.getValues(), temp);
 	}
 
 }
