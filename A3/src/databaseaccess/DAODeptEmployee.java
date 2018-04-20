@@ -1,5 +1,6 @@
 package databaseaccess;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,16 +18,16 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 	public boolean addItem(DeptEmployee item) {
 		DAOEmployee emp = new DAOEmployee();
 		DAODepartments dep = new DAODepartments();
-		
+
 		boolean result = false;
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
 					.prepareStatement("INSERT INTO " + DAODeptEmployee.tName + " VALUES(?,?,?,?);");
 			PreparedStatement eKey = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("SELECT MAX("+DAOEmployee.COLUMNS[0] + ") FROM " + DAOEmployee.tName + ";");
-			PreparedStatement dKey = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("SELECT MAX(" +DAODepartments.COLUMNS[0]+ ") FROM " + DAODepartments.tName+";");
+					.prepareStatement("SELECT MAX(" + DAOEmployee.COLUMNS[0] + ") FROM " + DAOEmployee.tName + ";");
+			PreparedStatement dKey = DatabaseAccess.getInstance().getConnection().prepareStatement(
+					"SELECT MAX(" + DAODepartments.COLUMNS[0] + ") FROM " + DAODepartments.tName + ";");
 			s.setInt(1, item.getEmpID());
 			s.setString(2, item.getDeptID());
 			s.setDate(3, item.getfDate());
@@ -67,13 +68,14 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 		PreparedStatement s = null;
 		try {
 			s = DatabaseAccess.getInstance().getConnection()
-					.prepareStatement("UPDATE " + DAODeptEmployee.tName + " SET " + DAODeptEmployee.COLUMNS[2] + "=?"
-							+ DAODeptEmployee.COLUMNS[3] + "=? + WHERE " + DAODeptEmployee.COLUMNS[0] + " =? AND "
-							+ DAODeptEmployee.COLUMNS[1] + "=?;");
+					.prepareStatement("UPDATE " + DAODeptEmployee.tName + " SET " + DAODeptEmployee.COLUMNS[2] + " = ?, "
+							+ DAODeptEmployee.COLUMNS[3] + " = ?  WHERE " + DAODeptEmployee.COLUMNS[0] + " = ? AND "
+							+ DAODeptEmployee.COLUMNS[1] + " = ?;");
 			s.setDate(1, item.getfDate());
 			s.setDate(2, item.gettDate());
 			s.setInt(3, item.getEmpID());
 			s.setString(4, item.getDeptID());
+			System.out.println(s.toString());
 			result = s.executeUpdate() > 0;
 			DatabaseAccess.getInstance().closeConnection();
 			return result;
@@ -101,22 +103,28 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 	@Override
 	public <U> ArrayList<DeptEmployee> getItemsByID(U id) {
 		ArrayList<DeptEmployee> result = new ArrayList<>();
+		PreparedStatement s = null;
 		try {
-			PreparedStatement s = DatabaseAccess.getInstance().getConnection().prepareStatement(
-					"SELECT * FROM " + DAODeptEmployee.tName + " WHERE " + DAODeptEmployee.COLUMNS[0] + " = ?;");
 			if (id instanceof Integer) {
+				s = DatabaseAccess.getInstance().getConnection().prepareStatement(
+						"SELECT * FROM " + DAODeptEmployee.tName + " WHERE " + DAODeptEmployee.COLUMNS[0] + " = ?;");
 				s.setInt(1, (int) id);
 			} else if (id instanceof String) {
+				s = DatabaseAccess.getInstance().getConnection().prepareStatement(
+						"SELECT * FROM " + DAODeptEmployee.tName + " WHERE " + DAODeptEmployee.COLUMNS[1] + " = ?;");
+
 				s.setString(1, (String) id);
 			} else {
 				throw new IllegalArgumentException("Invallid Key Type");
 			}
 
-			System.out.println("DEPTE Statement " + s.toString());
-			ResultSet r = s.executeQuery();
-			DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator.createBuilder(DeptEmployee.class);
-			result = fact.createListFromResults(r);
-			DatabaseAccess.getInstance().closeConnection();
+			if (s != null) {
+				ResultSet r = s.executeQuery();
+				DeptEmployeeFactory fact = (DeptEmployeeFactory) TransferFactoryCreator
+						.createBuilder(DeptEmployee.class);
+				result = fact.createListFromResults(r);
+				DatabaseAccess.getInstance().closeConnection();
+			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -125,9 +133,12 @@ public class DAODeptEmployee implements DAO<DeptEmployee> {
 
 	public static void main(String[] args) {
 		DAODeptEmployee emp = new DAODeptEmployee();
-		for (int i = 0; i < DAODeptEmployee.COLUMNS.length; i++) {
-			System.out.println(emp.getItemsByID(10010).get(0).getValues()[i]);
-		}
+		ArrayList<DeptEmployee> eList = emp.getItemsByID(10001);
+		eList.get(0).setfDate(Date.valueOf("1992-03-24"));
+		System.out.println(emp.modifyItem(eList.get(0)));
+		eList = emp.getItemsByID("d005");
+		eList.get(0).settDate(Date.valueOf("1997-04-27"));
+		System.out.println(emp.modifyItem(eList.get(0)));
 	}
 
 }
