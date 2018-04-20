@@ -2,10 +2,12 @@ package junit;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import transferobj.Salaries;
 
 public class TransferSalariesTest {
@@ -22,18 +24,21 @@ public class TransferSalariesTest {
 
 	@Test
 	public void testGetEmpNo() {
+		salary.setEmpNo(10001);
+		assertEquals(10001,salary.getEmpNo());
 		
 	}
 
 	@Test
 	public void testSetEmpNo() {
 		salary.setEmpNo(10001);
-		assertEquals(salary.getEmpNo(), "1000");
+		assertEquals(salary.getEmpNo(),10001);
 	}
 
 	@Test
 	public void testGetSalary() {
-		fail("Not yet implemented");
+		salary.setSalary(53000);
+		assertEquals(salary.getSalary(),(53000));
 	}
 
 	@Test
@@ -44,34 +49,52 @@ public class TransferSalariesTest {
 
 	@Test
 	public void testGetfDate() {
-		fail("Not yet implemented");
+		Long now = Calendar.getInstance().getTime().getTime();
+        Date date = new Date(now);
+        salary.setfDate(date);
+        assertTrue(salary.getfDate().getTime() == now);
 	}
 
 	@Test
 	public void testSetfDate() {
-		
-		salary.setfDate(10/8/2013);
-		assertEquals(salary.getfDate().equals(10/8/2013));
+		Long now = Calendar.getInstance().getTime().getTime();
+        Date date = new Date(now);
+        salary.setfDate(date);
+        assertTrue(salary.getfDate().getTime() == now);
 	}
 
 	@Test
 	public void testGettDate() {
-		fail("Not yet implemented");
+		Long now = Calendar.getInstance().getTime().getTime();
+        Date date = new Date(now);
+        salary.settDate(date);
+        assertTrue(salary.gettDate().getTime() == now);
 	}
 
 	@Test
 	public void testSettDate() {
-		fail("Not yet implemented");
+		Long now = Calendar.getInstance().getTime().getTime();
+        Date date = new Date(now);
+        salary.settDate(date);
+        assertTrue(salary.gettDate().getTime() == now);
 	}
 
 	@Test
 	public void testGetValues() {
-		fail("Not yet implemented");
+		Long now = new Long(1524188049353L);
+        Date date = new Date(now);
+        salary.setEmpNo(1000);
+        salary.setSalary(53000);
+        salary.setfDate(date);
+        salary.settDate(date);
+        
+        String[] temp = new String[] {"1000","53000","2018-04-19","2018-04-19"};
+        
+        assertArrayEquals(salary.getValues(), temp);
 	}
 
 	@Test
 	public void testPrintAll() {
-		fail("Not yet implemented");
 	}
 
 }
