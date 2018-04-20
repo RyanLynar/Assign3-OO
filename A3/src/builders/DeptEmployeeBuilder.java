@@ -44,7 +44,7 @@ public class DeptEmployeeBuilder implements AbstractBuilder<DeptEmployee> {
 			while (!r.isAfterLast()) {
 				DeptEmployee entry = new DeptEmployee();
 				for (int i = 0; i < r.getMetaData().getColumnCount(); i++) {
-					if (r.getMetaData().getColumnType(i + 1) == Types.VARCHAR) {
+					if (r.getMetaData().getColumnType(i + 1) == Types.CHAR) {
 						if (DAODeptEmployee.COLUMNS[i].equals(r.getMetaData().getColumnName(i + 1))) {
 							setString(entry, r.getString(i + 1), r.getMetaData().getColumnName(i + 1));
 						}

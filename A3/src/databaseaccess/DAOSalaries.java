@@ -146,6 +146,10 @@ public class DAOSalaries implements DAO<Salaries> {
 	}
 	public static void main(String[] args) {
 		DAOSalaries test = new DAOSalaries();
+		ArrayList<Salaries> tList = test.getItemsByID(10010);
+		for(int i = 0; i <DAOSalaries.COLUMNS.length; i++) {
+			System.out.print(" " + tList.get(0).getValues()[i]);
+		}
 		Salaries s = new Salaries();
 		s.setEmpNo(666666);
 		s.setSalary(21);

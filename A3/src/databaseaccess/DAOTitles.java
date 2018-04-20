@@ -119,5 +119,12 @@ public class DAOTitles implements DAO<Titles> {
 		}
 		return entryList;
 	}
+	public static void main(String[] args) {
+		DAOTitles title = new DAOTitles();
+		ArrayList<Titles> tList = title.getItemsByID(10010);
+		for(int i =0; i < DAOTitles.COLUMNS.length; i++){
+			System.out.print(tList.get(0).getValues()[i]);
+		}
+	}
 
 }
